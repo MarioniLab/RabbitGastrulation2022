@@ -25,6 +25,8 @@ identities. Details of the method can be found
 library(scrabbitr)
 library(SingleR)
 
+set.seed(42)
+
 out_path <- "../data-out/cell_type_annotation/"
 
 
