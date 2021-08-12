@@ -1,0 +1,11 @@
+LICENSE
+pyproject.toml
+setup.py
+src/scrabbit/__init__.py
+src/scrabbit/annotate.py
+src/scrabbit/plot_utils.py
+src/scrabbit.egg-info/PKG-INFO
+src/scrabbit.egg-info/SOURCES.txt
+src/scrabbit.egg-info/dependency_links.txt
+src/scrabbit.egg-info/requires.txt
+src/scrabbit.egg-info/top_level.txt

@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: scrabbit
+Version: 0.1.dev0
+Summary: s
+Home-page: http://github.com/dkeitley/scrabbitpy
+Author: Daniel Keitley
+Author-email: dk562@cam.ac.uk
+Maintainer: Daniel Keitley
+Maintainer-email: dk562@cam.ac.uk
+License: MIT
+Platform: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering
+Requires: numpy
+Requires-Python: >= 3.5
+License-File: LICENSE
+
+UNKNOWN
+

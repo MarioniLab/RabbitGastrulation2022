@@ -1,0 +1,21 @@
+Package: scrabbitr
+Type: Package
+Title: Single-cell RNA-seq analysis of rabbit gastrulation
+Version: 0.1.0
+Author: Daniel Keitley
+Maintainer: Daniel Keitley <dk562@cam.ac.uk>
+Description: Provides R functions for processing and analysing single-cell
+    RNA-seq data collected of rabbit gastrulation and for comparing
+    with other existing gastrulation datasets. 
+Depends:
+	R (>= 4.0),
+	SingleCellExperiment,
+  ggplot2
+Imports:
+  Rsamtools,
+  GenomicRanges,
+  GenomicAlignments
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
