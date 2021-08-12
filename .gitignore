@@ -2,3 +2,4 @@ notebooks/.ipynb_checkpoints/
 data-in/
 figs/celltype_annotation/annotation_pipeline/
 data-out/
+scrabbitpy/src/scrabbit/__pycache__/
