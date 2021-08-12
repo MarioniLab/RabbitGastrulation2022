@@ -46,5 +46,5 @@ MINOR = _version_minor
 MICRO = _version_micro
 VERSION = __version__
 PACKAGE_DIR = {"": "src"}
-REQUIRES = ["numpy"]
+REQUIRES = ["numpy","scanpy","cython","wot"]
 PYTHON_REQUIRES = ">= 3.5"
