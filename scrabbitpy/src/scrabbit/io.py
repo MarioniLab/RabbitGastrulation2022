@@ -7,11 +7,11 @@ Created on Thu Aug 12 14:41:55 2021
 
 import scanpy as sc
 
-def loadRabbitData(data_path="../data-in/rabbit/anndata.h5ad")
+def loadRabbitData(data_path="../data-in/rabbit/anndata.h5ad"):
     r_data = sc.read_h5ad(data_path)
     return(r_data)
 
-def loadMouseData(data_path="../data-in/mouse/anndata.h5ad")
+def loadMouseData(data_path="../data-in/mouse/anndata.h5ad"):
     m_data = sc.read_h5ad(data_path)
     return(m_data)
     

@@ -17,6 +17,12 @@ Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python
 Classifier: Topic :: Scientific/Engineering
 Requires: numpy
+Requires: scanpy
+Requires: cython
+Requires: wot
+Requires: matplotlib
+Requires: pandas
+Requires: plotly
 Requires-Python: >= 3.5
 License-File: LICENSE
 

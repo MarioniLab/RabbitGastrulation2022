@@ -3,7 +3,9 @@ pyproject.toml
 setup.py
 src/scrabbit/__init__.py
 src/scrabbit/annotate.py
+src/scrabbit/io.py
 src/scrabbit/plot_utils.py
+src/scrabbit/traj.py
 src/scrabbit.egg-info/PKG-INFO
 src/scrabbit.egg-info/SOURCES.txt
 src/scrabbit.egg-info/dependency_links.txt
