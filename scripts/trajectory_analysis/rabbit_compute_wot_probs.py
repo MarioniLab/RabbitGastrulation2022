@@ -7,6 +7,7 @@ Created on Mon Aug 16 17:33:00 2021
 
 import scrabbit
 import os.path
+from pathlib import Path
 
 out_path = "data-out/trajectory_analysis/rabbit/wot/"
 Path(out_path).mkdir(parents=True, exist_ok=True)

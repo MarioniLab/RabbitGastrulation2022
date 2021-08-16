@@ -6,6 +6,7 @@ Created on Mon Aug 16 18:18:14 2021
 """
 import scrabbit
 import os.path
+from pathlib import Path
 
 out_path = "data-out/trajectory_analysis/mouse/wot/"
 Path(out_path).mkdir(parents=True, exist_ok=True)
