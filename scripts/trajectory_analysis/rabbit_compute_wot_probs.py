@@ -16,9 +16,9 @@ celltypes_path = "data-in/trajectory_analysis/rabbit/celltypes.gmt"
 # Check cell types GMT file exists
 if(~os.path.isfile(celltypes_path)):
     r_data = scrabbit.io.loadRabbitData("data-in/rabbit/anndata.h5ad")
-    scrabbit.io.exportGMT(r_data.obs["celltype"], export=celltypes_path)   
+    scrabbit.io.exportGMT(r_data, "celltype", export=celltypes_path)   
 
 
 scrabbit.traj.computeWOTProbabilities(tmap_path = "data-out/trajectory_analysis/rabbit/tmaps/",
-                                      celltypes_path = ,
+                                      celltypes_path = celltypes_path,
                                       export_dir = out_path)

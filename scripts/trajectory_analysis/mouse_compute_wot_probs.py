@@ -19,5 +19,5 @@ if(~os.path.isfile(celltypes_path)):
 
 
 scrabbit.traj.computeWOTProbabilities(tmap_path = "data-out/trajectory_analysis/mouse/tmaps/",
-                                      celltypes_path = ,
+                                      celltypes_path = celltypes_path,
                                       export_dir = out_path)
