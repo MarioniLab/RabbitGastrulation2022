@@ -9,6 +9,8 @@ import scanpy as sc
 import pandas as pd
 import wot
 import numpy as np
+from pathlib import Path
+
 
 def computeGeneScores(raw_adata, corrected_adata, gs_path,save=False, out_path=""):
     gs = wot.io.read_sets(gs_path, raw_adata.var.index.values)
@@ -79,3 +81,50 @@ def runWOT(adata, gs_path, out_path, epsilon=0.05, lambda1=1, lambda2=50,
     # Compute transport maps
     model.compute_all_transport_maps(tmap_out = out_path + "tmaps/")
 
+
+
+def computeWOTProbabilities(tmap_path, celltypes_path, export_dir):
+    
+    celltype_gmt = wot.io.read_sets(celltypes_path, as_dict=True)
+    wot_model = wot.tmap.TransportMapModel.from_directory(tmap_path)
+    
+    populations = wot_model.population_from_cell_sets(celltype_gmt,at_time=9)
+    
+    trajectories = wot_model.trajectories(populations)
+    fates = wot_model.fates(populations)
+
+    Path(export_dir + "trajectory").mkdir(parents=True, exist_ok=True)
+    Path(export_dir + "fates").mkdir(parents=True, exist_ok=True)
+
+    trajectories.write_csvs(export_dir + "trajectory/",skip_data=False,sep="\t")
+    fates.write_csvs(export_dir + "fates/",skip_data=False,sep="\t")
+    
+    
+    
+    
+def runDPT(adata, obs, root_obs, denoise=True, n_neighbours=100):
+    sc.tl.diffmap(adata)
+    
+    # De-noise KNN graph using diffusion components (optional)
+    if(denoise):
+        sc.pp.neighbors(adata, n_neighbors=n_neighbours, use_rep='X_diffmap')
+    
+    # Compute PAGA graph
+    sc.tl.paga(adata, groups='celltype')
+    
+    # Choose root cell
+    rand_cell = adata.obs[adata.obs[obs]  == root_obs]
+    .sample().index.to_string(index=False).strip()
+    
+    rand_ind = adata.obs.index.get_loc(rand_cell)
+    adata.uns['iroot'] = rand_ind
+    
+    # Calculate diffusion pseudotime
+    sc.tl.dpt(adata)
+    
+    return(adata)
+
+
+
+        
+    
