@@ -6,6 +6,7 @@ Created on Thu Aug 12 14:41:55 2021
 """
 
 import scanpy as sc
+import pandas as pd
 
 def loadRabbitData(data_path="../data-in/rabbit/anndata.h5ad"):
     r_data = sc.read_h5ad(data_path)
