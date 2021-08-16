@@ -5,9 +5,10 @@ Created on Thu Aug 12 16:12:41 2021
 @author: Daniel Keitley
 """
 
-
+import scanpy as sc
+import pandas as pd
 import wot
-
+import numpy as np
 
 def computeGeneScores(raw_adata, corrected_adata, gs_path,save=False, out_path=""):
     gs = wot.io.read_sets(gs_path, raw_adata.var.index.values)
@@ -57,7 +58,7 @@ def runWOT(adata, gs_path, out_path, epsilon=0.05, lambda1=1, lambda2=50,
            local_pca=0, growth_iters=3):
     
     # Create AnnData of batch corrected PCs
-    corrected = sc.AnnData(pd.DataFrame(adata.obsm["X_pca"]).set_index(0),
+    corrected = sc.AnnData(pd.DataFrame(adata.obsm["X_pca"]),
                                      obs=adata.obs)
     
     # Compute gene scores

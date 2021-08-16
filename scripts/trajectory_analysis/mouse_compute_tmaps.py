@@ -9,7 +9,7 @@ import scrabbit
 
 
 # Load data
-m_data = scrabbit.io.loadMouseData()
+m_data = scrabbit.io.loadMouseData("../../data-in/mouse/anndata.h5ad")
 
 # Index with cell names
 m_data.obs.index = m_data.obs["cell"]
@@ -25,7 +25,7 @@ m_data.obs['day'] = m_data.obs['stage'].replace(stage_dict)
 m_data.obs['day'] = m_data.obs['day'].astype('float') # needed for 0.5 days
 
 
-in_path = "../data-in/trajectory_analysis/mouse/"
-out_path = "../data-out/trajectory_analysis/mouse/"
+in_path = "../../data-in/trajectory_analysis/mouse/"
+out_path = "../../data-out/trajectory_analysis/mouse/"
 
 scrabbit.traj.runWOT(m_data, in_path + "growth_gene_sets.gmx", out_path)
