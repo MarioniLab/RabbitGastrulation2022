@@ -58,8 +58,7 @@ def runWOT(adata, gs_path, out_path, epsilon=0.05, lambda1=1, lambda2=50,
            local_pca=0, growth_iters=3):
     
     # Create AnnData of batch corrected PCs
-    corrected = sc.AnnData(pd.DataFrame(adata.obsm["X_pca"]),
-                                     obs=adata.obs)
+    corrected = sc.AnnData(adata.obsm["X_pca"],obs=adata.obs)
     
     # Compute gene scores
     g_scores = computeGeneScores(adata, corrected, save=True,
