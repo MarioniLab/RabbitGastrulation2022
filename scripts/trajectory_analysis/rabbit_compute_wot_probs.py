@@ -22,4 +22,5 @@ if(~os.path.isfile(celltypes_path)):
 
 scrabbit.traj.computeWOTProbabilities(tmap_path = "data-out/trajectory_analysis/rabbit/tmaps/",
                                       celltypes_path = celltypes_path,
+                                      end_timepoint = 9,
                                       export_dir = out_path)

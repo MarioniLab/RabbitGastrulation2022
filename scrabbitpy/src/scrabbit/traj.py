@@ -83,12 +83,12 @@ def runWOT(adata, gs_path, out_path, epsilon=0.05, lambda1=1, lambda2=50,
 
 
 
-def computeWOTProbabilities(tmap_path, celltypes_path, export_dir):
+def computeWOTProbabilities(tmap_path, celltypes_path, end_timepoint, export_dir):
     
     celltype_gmt = wot.io.read_sets(celltypes_path, as_dict=True)
     wot_model = wot.tmap.TransportMapModel.from_directory(tmap_path)
     
-    populations = wot_model.population_from_cell_sets(celltype_gmt,at_time=9)
+    populations = wot_model.population_from_cell_sets(celltype_gmt,at_time=end_timepoint)
     
     trajectories = wot_model.trajectories(populations)
     fates = wot_model.fates(populations)
