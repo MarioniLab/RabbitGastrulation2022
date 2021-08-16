@@ -113,8 +113,8 @@ def runDPT(adata, obs, root_obs, denoise=True, n_neighbours=100):
     sc.tl.paga(adata, groups='celltype')
     
     # Choose root cell
-    rand_cell = adata.obs[adata.obs[obs]  == root_obs]
-    .sample().index.to_string(index=False).strip()
+    rand_cell = adata.obs[adata.obs[obs]  == root_obs].sample()
+    rand_cell = rand_cell.index[0].strip()
     
     rand_ind = adata.obs.index.get_loc(rand_cell)
     adata.uns['iroot'] = rand_ind
