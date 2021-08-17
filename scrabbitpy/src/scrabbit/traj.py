@@ -96,7 +96,9 @@ def computeWOTProbabilities(tmap_path, celltypes_path, end_timepoint, export_dir
     Path(export_dir + "trajectory").mkdir(parents=True, exist_ok=True)
     Path(export_dir + "fates").mkdir(parents=True, exist_ok=True)
 
+    trajectories.write(export_dir + "trajectory/anndata.h5ad")
     trajectories.write_csvs(export_dir + "trajectory/",skip_data=False,sep="\t")
+    fates.write(export_dir + "fates/anndata.h5ad")
     fates.write_csvs(export_dir + "fates/",skip_data=False,sep="\t")
     
     
