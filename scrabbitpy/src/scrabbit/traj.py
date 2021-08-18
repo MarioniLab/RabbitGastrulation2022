@@ -103,24 +103,31 @@ def computeWOTProbabilities(tmap_path, celltypes_path, end_timepoint, export_dir
     fates.write_csvs(export_dir + "fates/",skip_data=False,sep="\t")
     
     
-    
+
+def sampleRoot(adata, obs, root_obs):
+    rand_cell = adata.obs[adata.obs[obs]  == root_obs].sample()
+    rand_cell = rand_cell.index[0].strip()
+    return(rand_cell)
+
+
+def assignRandomRoot(adata, obs, root_obs):
+    rand_cell = sampleRoot(adata, obs, root_obs)
+    rand_ind = adata.obs.index.get_loc(rand_cell)
+    adata.uns['iroot'] = rand_ind
+
     
 def runDPT(adata, obs, root_obs, denoise=True, n_neighbours=100):
     sc.tl.diffmap(adata)
     
-    # De-noise KNN graph using diffusion components (optional)
+    # De-noise KNN graph using diffusion components
     if(denoise):
         sc.pp.neighbors(adata, n_neighbors=n_neighbours, use_rep='X_diffmap')
     
     # Compute PAGA graph
     sc.tl.paga(adata, groups='celltype')
     
-    # Choose root cell
-    rand_cell = adata.obs[adata.obs[obs]  == root_obs].sample()
-    rand_cell = rand_cell.index[0].strip()
-    
-    rand_ind = adata.obs.index.get_loc(rand_cell)
-    adata.uns['iroot'] = rand_ind
+    # Assign random root cell
+    assignRandomRoot(adata, obs, root_obs)
     
     # Calculate diffusion pseudotime
     sc.tl.dpt(adata)
@@ -130,13 +137,15 @@ def runDPT(adata, obs, root_obs, denoise=True, n_neighbours=100):
 
 
 
-def extractTrajectory(adata, traj, celltype, thresh, filter_low_freq = True,
+def extractTrajectory(adata, traj, celltype, thresh = 0.95, filter_low_freq = True,
                       freq_thresh = 0.01):
     
     prob_vals = traj.obs_vector(celltype)
-    thresh_val = np.quantile(traj.obs_vector(celltype),thresh)
-    traj_cells = traj[:,celltype].obs[prob_vals > thresh_val].index.values
+    thresh_val = np.quantile(prob_vals,thresh)
+    above_thresh = prob_vals > thresh_val
+    traj_cells = traj[:,celltype].obs[above_thresh].index.values
     adata_out = adata[traj_cells,]
+    adata_out.obs["wot_probability"] = prob_vals[above_thresh]
     
     # Remove low frequency cell types
     if(filter_low_freq):
