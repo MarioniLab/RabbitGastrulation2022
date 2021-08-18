@@ -10,6 +10,7 @@ import pandas as pd
 import wot
 import numpy as np
 from pathlib import Path
+from .annotate import filterMostCommonObs
 
 
 def computeGeneScores(raw_adata, corrected_adata, gs_path,save=False, out_path=""):
@@ -128,5 +129,23 @@ def runDPT(adata, obs, root_obs, denoise=True, n_neighbours=100):
 
 
 
+
+def extractTrajectory(adata, traj, celltype, thresh, filter_low_freq = True,
+                      freq_thresh = 0.01):
+    
+    prob_vals = traj.obs_vector(celltype)
+    thresh_val = np.quantile(traj.obs_vector(celltype),thresh)
+    traj_cells = traj[:,celltype].obs[prob_vals > thresh_val].index.values
+    adata_out = adata[traj_cells,]
+    
+    # Remove low frequency cell types
+    if(filter_low_freq):
+        adata_out = adata_out[adata_out.obs["celltype"].isin(
+            filterMostCommonObs(adata_out,"celltype",freq_thresh))]
+    
+    return(adata_out)
         
+
+
+
     
