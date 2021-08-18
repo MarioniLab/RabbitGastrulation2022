@@ -26,7 +26,6 @@ downsampleSCE <- function(sce, ncells) {
 #' }
 #'
 #'
-#'
 #' @param sce SingleCellExperiment object
 #' @param group colData observation to export
 #' @param gmt_path Path to write GMT file
@@ -40,6 +39,25 @@ exportToGMT <- function(sce,group,gmt_path) {
 }
 
 
+
+#' Load csv files exported from WOT trajectory/fate AnnData
+#' @export
+loadWOTData <- function(wot_path) {
+  traj <- read.csv(paste0(wot_path,"X.csv"),
+                   sep="\t",header=FALSE)
+
+  traj_obs <- read.csv(paste0(wot_path,"obs.csv"),
+                       sep="\t",header=TRUE)
+  traj_var <- read.csv(paste0(wot_path,"var.csv"),
+                       sep="\t",header=FALSE)
+
+  rownames(traj) <- traj_obs$X
+  colnames(traj) <- traj_var[,1]
+  traj <- cbind(traj,day=traj_obs$day)
+
+  return(traj)
+
+}
 
 
 
