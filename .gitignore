@@ -1,5 +1,11 @@
 notebooks/.ipynb_checkpoints/
 data-in/
+data-out/
+data-test/
+figs/
+plots/
 figs/celltype_annotation/annotation_pipeline/
 data-out/
 scrabbitpy/src/scrabbit/__pycache__/
+srabbitpy/src/scrabbit.egg-info/
+.Rproj.user
