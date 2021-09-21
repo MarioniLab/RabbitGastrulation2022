@@ -71,7 +71,7 @@ loadYang2021 <- function(data_path) {
   rownames(meta_df) <- meta_df$cell
 
   # Load counts
-  counts <- fread(file=paste0(data_path,"CM_filtered_SoupX_corrected.tsv"),sep="\t",
+  counts <- data.table::fread(file=paste0(data_path,"CM_filtered_SoupX_corrected.tsv"),sep="\t",
                   data.table=F)
   genes<-counts$V1
   counts <- counts[,grepl("WT*",colnames(counts))]
