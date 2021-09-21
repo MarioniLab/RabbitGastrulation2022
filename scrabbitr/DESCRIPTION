@@ -17,7 +17,8 @@ Imports:
   GenomicAlignments,
   data.table,
   Matrix,
-  scater
+  scater,
+  dplyr
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

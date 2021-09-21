@@ -67,7 +67,7 @@ loadYang2021 <- function(data_path) {
 
   # Load meta
   meta_raw <- readRDS(paste0(data_path,"metadata_full.Rds"))
-  meta_df <- as.data.frame(bind_rows(meta_raw))
+  meta_df <- as.data.frame(dplyr::bind_rows(meta_raw))
   rownames(meta_df) <- meta_df$cell
 
   # Load counts
@@ -77,7 +77,7 @@ loadYang2021 <- function(data_path) {
   counts <- counts[,grepl("WT*",colnames(counts))]
   counts <- sapply(counts,FUN=as.numeric)
   rownames(counts) <- genes
-  logcounts <- Matrix(counts,sparse=TRUE)
+  logcounts <- Matrix::Matrix(counts,sparse=TRUE)
 
 
   umap_df <- meta_df[colnames(counts),c("UMAP_1","UMAP_2")]
