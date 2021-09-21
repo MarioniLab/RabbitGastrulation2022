@@ -108,7 +108,7 @@ loadTyser2020 <- function(data_path) {
   meta <- readRDS(paste0(data_path,"annot_umap.rds"))
   umap <- as.data.frame(meta[,c("X0","X1")])
 
-  sce <- SingleCellExperiment(assays=list(logcounts = Matrix(X_mat,sparse = TRUE)),
+  sce <- SingleCellExperiment(assays=list(logcounts = Matrix::Matrix(X_mat,sparse = TRUE)),
                               colData = meta,
                               reducedDims = list(UMAP = umap))
   sce$stage <- "16dpf"
