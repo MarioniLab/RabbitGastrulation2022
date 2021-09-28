@@ -87,7 +87,18 @@ celltype_colours <- c("Epiblast" = "#635547",
                       "ExE endoderm" = "#7F6874",
                       "ExE ectoderm" = "#989898",
                       "Parietal endoderm" = "#1A1A1A",
-                      "Megakariocytes"= "#ac0404"
+                      "Megakariocytes"= "#ac0404",
+                      'Cranial neural crest' = "#BD84B0",
+                      "Hinbrain/Spinal cord" = "#6B2035",
+                      "Forebrain/Eye"= "#0F8073",
+                      "Differentiating neurons"="#12ED4C",
+                      "Floor plate" = "#BF9DA8",
+                      "Cytotrophoblast"="#da3c60",
+                      "Syncytiotrophoblast"="#7295e2",
+                      "Syncytiotrophoblast progenitors"="#7766db",
+                      "Trophoblast"="#dea93c",
+                      "Amniotic ectoderm"= "#46c5bf",
+                      "Hypoblast"="#7F6874"
 )
 
 
