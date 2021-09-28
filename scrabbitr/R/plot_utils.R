@@ -89,3 +89,9 @@ celltype_colours <- c("Epiblast" = "#635547",
                       "Parietal endoderm" = "#1A1A1A",
                       "Megakariocytes"= "#ac0404"
 )
+
+
+#' @export
+getCelltypeColours <- function() {
+  return(celltype_colours)
+}
