@@ -6,7 +6,26 @@ This project relies on both R and python code packaged into `scrabbitr` and `scr
 
 
 
+##### Setting up conda environment
 
+````bash
+conda env create -f environment.yml
+conda activate scrabbit_env
+````
+
+##### Installing scrabbit
+
+```bash
+cd scrabbit
+pip install .
+```
+
+##### Installing scrabbitr
+
+```R
+# Inside R session
+install.packages("scrabbitr/", repos = NULL, type="source")
+```
 
 
 
