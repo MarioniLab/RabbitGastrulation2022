@@ -170,7 +170,14 @@ celltype_colours = {"NMP" : "#8EC792",
 					"Syncytiotrophoblast progenitors":"#7766db",
 					"Trophoblast":"#dea93c",
 					"Amniotic ectoderm": "#46c5bf",
-					"Hypoblast":"#7F6874"}
+					"Hypoblast":"#7F6874",
+					'Forebrain': "#FF4A46",
+              		'Midbrain': "#0000A6",
+               		'Hindbrain':"#63FFAC",
+              		'Roof plate': "#772600",
+               		'Trophoblastic knobs':"#549E79",
+               		'Visceral YS endoderm 2': "#5B4534"
+					}
 
 
 
