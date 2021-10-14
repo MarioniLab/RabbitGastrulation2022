@@ -8,6 +8,7 @@ isEnsemblID <- function(genes) {
 
 
 #' Queries Ensembl BioMart database for homologs between species.
+#' @importFrom biomaRt useMart getBM
 #'@export
 getEnsemblHomologs <- function(ref_species,ref_genes,query_species) {
 
@@ -52,8 +53,6 @@ getEnsemblHomologs <- function(ref_species,ref_genes,query_species) {
 #' @param outputIDs Specifies whether to return the one-to-one orthologs in
 #' Ensembl gene ID format or using their gene names.
 #' @export
-# one2one.data assumed to be in format of getHomologData
-# query_species in Ensembl format (e.g. hsapiens, mmusculus)
 filterSharedFeatures <- function(query_genes, query_species,one2one.data,outputIDs=TRUE) {
   id <- TRUE
   if(!any(isEnsemblID(query_genes))) {
