@@ -31,7 +31,7 @@ downsampleSCE <- function(sce, ncells) {
 #' @param gmt_path Path to write GMT file
 #' @export
 exportToGMT <- function(sce,group,gmt_path) {
-  lapply(unique(sce[[group]]),function(x) {
+  lapply(unique(as.character(sce[[group]])),function(x) {
     out <- data.frame(c(x, "-", colnames(sce)[sce[[group]] == x]))
     write.table(t(out), gmt_path, sep = "\t", col.names = F,
                 append = T,row.names = F,quote=F)
@@ -62,8 +62,11 @@ loadWOTData <- function(wot_path) {
 
 
 #' Load macaque data from Yang et al. 2021
+#' @importFrom scater logNormCounts
+#' @importFrom Matrix Matrix
+#' @importFrom SingleCellExperiment SingleCellExperiment
 #' @export
-loadYang2021 <- function(data_path) {
+loadYang2021 <- function(data_path, normalise=TRUE) {
 
   # Load meta
   meta_raw <- readRDS(paste0(data_path,"metadata_full.Rds"))
@@ -77,23 +80,45 @@ loadYang2021 <- function(data_path) {
   counts <- counts[,grepl("WT*",colnames(counts))]
   counts <- sapply(counts,FUN=as.numeric)
   rownames(counts) <- genes
-  logcounts <- Matrix::Matrix(counts,sparse=TRUE)
+  counts <- Matrix::Matrix(counts,sparse=TRUE)
 
 
-  umap_df <- meta_df[colnames(counts),c("UMAP_1","UMAP_2")]
+  #umap_df <- meta_df[colnames(counts),c("UMAP_1","UMAP_2")]
+  umap_df <- read.table(paste0(data_path, "corrected_umap.tsv"),sep="\t")
+  colnames(umap_df) <- c("UMAP_1","UMAP_2")
   meta <- meta_df[colnames(counts),c("cell","lineage")]
   colnames(meta)[2] <- "celltype"
 
-  # Add stage info
+  # Add stage/batch info
   meta$stage <- ""
-  meta$stage[grepl("WT_d10_*", meta$cell)] <- "d10"
-  meta$stage[grepl("WT_d12_*", meta$cell)] <- "d12"
-  meta$stage[grepl("WT_d14_*", meta$cell)] <- "d14"
+  meta[grepl("WT_d10_*", meta$cell),"stage"] <- "d10"
+  meta[grepl("WT_d12_*", meta$cell),"stage"] <- "d12"
+  meta[grepl("WT_d14_*", meta$cell),"stage"] <- "d14"
+
+  meta$batch <- ""
+  meta[grepl("WT_d10_b1_*", meta$cell),"batch"] <- "b1"
+  meta[grepl("WT_d10_b2_*", meta$cell),"batch"] <- "b2"
+  meta[grepl("WT_d12_b1_*", meta$cell),"batch"] <- "b3"
+  meta[grepl("WT_d12_b2_*", meta$cell),"batch"] <- "b4"
+  meta[grepl("WT_d14_b1_*", meta$cell),"batch"] <- "b5"
+  meta[grepl("WT_d14_b2_*", meta$cell),"batch"] <- "b6"
+
+  meta$stage <- factor(meta$stage,levels=c("d10","d12","d14"))
+  meta$batch <- factor(meta$batch,levels=c("b1","b2","b3","b4","b5","b6"))
+  meta$celltype <- factor(meta$celltype)
 
   meta <- meta[,-1]
 
   sce <- SingleCellExperiment(assays=list(counts=counts),colData=meta,
                               reducedDims=list(UMAP=umap_df))
+
+  if(normalise) {
+    size_factors <- read.table(paste0(data_path,"size_factors.tsv"),sep="\t",
+                               col.names=c("sizeFactors"))
+    sce <- scater::logNormCounts(sce,size.factors=size_factors$sizeFactors)
+
+  }
+
   return(sce)
 }
 
