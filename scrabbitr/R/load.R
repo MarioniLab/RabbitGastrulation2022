@@ -73,6 +73,8 @@ loadYang2021 <- function(data_path, normalise=TRUE) {
   meta_df <- as.data.frame(dplyr::bind_rows(meta_raw))
   rownames(meta_df) <- meta_df$cell
 
+  features <- read.table(paste0(data_path, "features.tsv"),sep="\t")
+
   # Load counts
   counts <- data.table::fread(file=paste0(data_path,"CM_filtered_SoupX_corrected.tsv"),sep="\t",
                   data.table=F)
@@ -86,6 +88,10 @@ loadYang2021 <- function(data_path, normalise=TRUE) {
   #umap_df <- meta_df[colnames(counts),c("UMAP_1","UMAP_2")]
   umap_df <- read.table(paste0(data_path, "corrected_umap.tsv"),sep="\t")
   colnames(umap_df) <- c("UMAP_1","UMAP_2")
+
+  pca_df <- read.table(paste0(data_path, "corrected_pcs.tsv"),sep="\t")
+  colnames(pca_df) <- paste0("PC_", 1:50)
+
   meta <- meta_df[colnames(counts),c("cell","lineage")]
   colnames(meta)[2] <- "celltype"
 
@@ -110,7 +116,8 @@ loadYang2021 <- function(data_path, normalise=TRUE) {
   meta <- meta[,-1]
 
   sce <- SingleCellExperiment(assays=list(counts=counts),colData=meta,
-                              reducedDims=list(UMAP=umap_df))
+                              rowData=features,
+                              reducedDims=list(PCA=pca_df,UMAP=umap_df))
 
   if(normalise) {
     size_factors <- read.table(paste0(data_path,"size_factors.tsv"),sep="\t",
