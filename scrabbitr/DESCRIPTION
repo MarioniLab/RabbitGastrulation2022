@@ -22,7 +22,11 @@ Imports:
   stats,
   ggrepel,
   ggalluvial,
-  biomaRt
+  biomaRt,
+  ggridges,
+  ggrastr,
+  miloR,
+  viridis
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

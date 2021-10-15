@@ -108,3 +108,91 @@ plotAnnotationAlluvium <- function(sce, old, new, ncell_thresh=10,
   return(p)
 
 }
+
+
+
+
+#' @importFrom miloR nhoodGraph
+#' @importFrom igraph simplify vertex_attr V
+#' @importFrom SingleCellExperiment reducedDim
+#' @importFrom ggraph ggraph geom_node_point geom_edge_link0
+#' @importFrom ggplot theme aes theme_classic element_blank
+#' @importFrom viridis scale_color_viridis
+#' @importFrom ggrastr rasterise
+#' @export
+plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Max correlation" ) {
+
+  nh_graph <- nhoodGraph(milo)
+  V(nh_graph)$max_correlation <- df_maxNhood[vertex_attr(nh_graph)$name, colour_by]
+  layout <- reducedDim(milo, "UMAP")[as.numeric(vertex_attr(nhoodGraph(milo))$name),]
+  colnames(layout) <- c("x","y")
+
+  p <- ggraph(simplify(nh_graph), layout = layout) +
+    rasterise(geom_edge_link0(edge_colour = "grey66", edge_alpha=0.1),dpi=300) +
+    rasterise(geom_node_point(aes(color = max_correlation), size = 3,alpha=0.8, shape=20),dpi=300) +
+    theme_classic(base_size=14) +
+    theme(axis.line = element_blank(), axis.text = element_blank(),
+          axis.ticks = element_blank(), axis.title = element_blank(),
+          aspect.ratio=1) +
+    scale_color_viridis(option="cividis",name="Max correlation")
+
+  return(p)
+
+}
+
+
+
+#' sim_values in order of milo nhoods
+#' TODO: Make into separate functions so can pass plot specific params using ...
+#'
+#' @importFrom miloR nhoodGraph
+#' @importFrom SingleCellExperiment colData
+#' @importFrom igraph vertex_attr
+#' @importFrom ggplot ggplot geom_boxplot geom_violin aes coord_flip facet_grid
+#' @importFrom ggplot theme guides scale_fill_manual xlab ylab
+#' @importFrom ggridges geom_density_ridges
+#' @export
+plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NULL, type="ridge", orientation="vertical",
+                               decreasing=FALSE,group_colours=celltype_colours, xlabel="Cell type", ylabel="Correlation") {
+  graph <- nhoodGraph(milo)
+
+  df <- data.frame(nhood=vertex_attr(graph)$name,
+                   max_sim=sim_values,
+                   group=colData(milo)[as.numeric(vertex_attr(graph)$name), group_by])
+
+  if(!is.null(facet_by)) {
+    df$facet_by <- colData(milo)[as.numeric(vertex_attr(graph)$name), facet_by]
+  }
+
+  df_mean <- aggregate(df[,"max_sim"], list(df$group), mean,)
+  df$group <- factor(df$group, levels=df_mean[order(df_mean$x,decreasing=decreasing),"Group.1"])
+
+  p <- ggplot(df, aes(x=max_sim,y=group))
+
+  if(type=="boxplot") {
+    p <- p + geom_boxplot(aes(fill=group),outlier.size=0.1)
+
+  } else if(type=="violin") {
+    p <- p + geom_violin(aes(fill=group))
+
+  } else {
+    p <- p + geom_density_ridges(aes(fill = group),size=0.15,rel_min_height = 0.01)
+  }
+
+
+  if(!is.null(facet_by)) p <- p + facet_grid(cols=vars(facet_by))
+
+  if(orientation=="horizontal") {
+    p <- p + coord_flip()
+    if(!is.null(facet_by)) p <- p + facet_grid(rows=vars(facet_by))
+  }
+
+  p <- p + theme_bw()+
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    guides(fill="none") +
+    scale_fill_manual(values = group_colours[names(group_colours) %in% unique(df$group)], name = "") +
+    xlab(xlabel) + ylab(ylabel)
+
+  return(p)
+
+}
