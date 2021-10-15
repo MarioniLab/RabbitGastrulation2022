@@ -152,8 +152,10 @@ plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Ma
 #' @importFrom ggplot theme guides scale_fill_manual xlab ylab
 #' @importFrom ggridges geom_density_ridges
 #' @export
-plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NULL, type="ridge", orientation="vertical",
-                               decreasing=FALSE,group_colours=celltype_colours, xlabel="Cell type", ylabel="Correlation") {
+plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NULL, type="ridge",
+                               orientation="vertical",decreasing=FALSE,rel_min_height=0,
+                               group_colours=celltype_colours,
+                               xlabel="Cell type", ylabel="Correlation") {
   graph <- nhoodGraph(milo)
 
   df <- data.frame(nhood=vertex_attr(graph)$name,
@@ -176,7 +178,7 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
     p <- p + geom_violin(aes(fill=group))
 
   } else {
-    p <- p + geom_density_ridges(aes(fill = group),size=0.15,rel_min_height = 0.01)
+    p <- p + geom_density_ridges(aes(fill = group),size=0.15,rel_min_height = rel_min_height)
   }
 
 
