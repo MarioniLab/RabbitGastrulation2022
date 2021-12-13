@@ -198,3 +198,64 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
   return(p)
 
 }
+
+
+
+
+#' Plot a UMAP with annotated labels
+#' Used to show predicted cell type annotations, where the number of factors is
+#' large.
+#'
+#' @export
+plotAnnotatedUMAP <- function(sce, colour_by="predicted_celltype", ncell_filt=5,
+                              size=1, label_force=15,
+                              palette=scrabbitr::celltype_colours) {
+
+  col_data <- as.data.frame(colData(sce))
+  col_data$group <- col_data[[colour_by]]
+
+  umap_df <- as.data.frame(reducedDim(sce,"UMAP"))
+  colnames(umap_df) <- c("UMAP_1","UMAP_2")
+  col_data <- cbind(col_data, umap_df)
+
+  # Get mean position for each group
+  mean_data <- col_data %>% group_by(group) %>% summarize_at(.vars = vars(UMAP_1,UMAP_2),.funs = c("mean"))
+  mean_data <- as.data.frame(mean_data[complete.cases(mean_data),])
+  rownames(mean_data) <- mean_data$group
+
+  # Get position of closest cell to group mean
+  label_pos <- col_data %>% group_by(group) %>%  filter(
+    .calcEuclidean(UMAP_1, mean_data[group,"UMAP_1"], UMAP_2, mean_data[group,"UMAP_2"]) ==
+      min(.calcEuclidean(UMAP_1, mean_data[group,"UMAP_1"], UMAP_2, mean_data[group,"UMAP_2"])))
+
+  # Filter annotations with less than ncell_filt cells
+  freqs <- table(sce[[colour_by]])
+  label_pos <- label_pos[label_pos$group %in% names(freqs[freqs > ncell_filt]),]
+
+  # Repels labels from rest of points
+  col_data$group <- ""
+  label_pos <- rbind(label_pos, col_data)
+
+  # Wrap long labels
+  label_pos$group_wrapped <- stringr::str_wrap(label_pos$group , width = 10)
+
+  p <- ggplot(col_data, aes_string(x="UMAP_1",y="UMAP_2",colour=colour_by)) +
+    ggrastr::geom_point_rast(size=size) +
+    geom_text_repel(data=label_pos, aes(x=UMAP_1, y=UMAP_2,label=group_wrapped,segment.colour=group),color="black",
+                    min.segment.length = 0,box.padding = 0.5,max.overlaps=Inf,size=4,force=label_force) +
+    coord_cartesian(clip = "off") +
+    scale_colour_manual(aesthetics=c("color","segment.colour"),values=palette[sce[[colour_by]]],drop=TRUE,
+                        breaks=names(freqs[freqs > ncell_filt])) +
+
+    theme_void()+
+    theme(legend.position="none")
+
+  return(p)
+
+
+}
+
+
+
+
+
