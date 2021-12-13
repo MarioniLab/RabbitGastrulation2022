@@ -30,6 +30,7 @@ prepareEdgeR <- function(sce, group_by, group1, group2, block_by) {
 #' Compute differentially expressing genes using EdgeR
 #' @importFrom data.table data.table setnames
 #' @importFrom edgeR glmQLFit estimateDisp topTags glmQLFTest
+#' @importFrom dplyr %>%
 #' @export
 runEdgeR <- function(sce, min_detection_rate_per_group=0.1, min.logFC=2,
                      threshold_fdr=0.1) {
