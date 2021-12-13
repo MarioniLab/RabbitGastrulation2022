@@ -26,7 +26,8 @@ Imports:
   ggridges,
   ggrastr,
   miloR,
-  viridis
+  viridis,
+  edgeR
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
