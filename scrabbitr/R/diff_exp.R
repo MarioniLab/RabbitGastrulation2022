@@ -51,10 +51,6 @@ runEdgeR <- function(sce, min_detection_rate_per_group=0.1, min.logFC=2,
   cdr_B <- DelayedArray::rowMeans(counts(sce[,sce$group==groups[2]])>0) >= min_detection_rate_per_group
   sce <- sce[cdr_B | cdr_A,]
 
-  print(sce)
-  print(head(cdr.dt,10))
-  print(head(cdr_A))
-  print(head(counts(sce)>0))
 
   # Convert SCE to DGEList
   sce_edger <- scran::convertTo(sce, type="edgeR")
