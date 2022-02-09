@@ -94,7 +94,7 @@ calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
     sim_features <- orthologs[orthologs[,1] %in% r_features &
                                 orthologs[,2] %in% m_features, ]
   } else {
-    stop("Invalid hvg_join_type. Please specify either 'union' or 'intersection'")
+    stop("Invalid hvg_join_type. Please specify either 'union' or 'intersection'.")
   }
 
   r_filt <- r_assay[sim_features[,1],]
@@ -136,7 +136,7 @@ calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
 
 
 
-subsetMilo <- function(r_milo, r_graph) {
+subsetMiloGraph <- function(r_milo, r_graph) {
 
   # Get nhood indices
   r_nhoodIDs <- as.numeric(vertex_attr(r_graph)$name)
@@ -155,11 +155,30 @@ subsetMilo <- function(r_milo, r_graph) {
 }
 
 
+# Needed to keep track of index cells when using subseted Milo objects
+# E.g. when plotting UMAP of a subsetted Milo object
+addCellNamesToGraph <- function(milo) {
+
+  nh_graph <- nhoodGraph(milo)
+  nhood_ids <- as.numeric(vertex_attr(nh_graph)$name)
+  nhood_inds <- colnames(milo)[nhood_ids]
+  V(nh_graph)$cell_name <- nhood_inds
+  nhoodGraph(milo) <- nh_graph
+
+  return(milo)
+}
+
+
 
 getNhoodPositions <- function(milo, nh_graph=NULL, dimred="UMAP") {
 
   # Check if graph provided
   if(is.null(nh_graph)) { nh_graph <- nhoodGraph(milo) }
+
+  # Check graph attributes
+  if(is.null(vertex_attr(nh_graph)$cell_name)) {
+    stop("Neighbourhood graph must have a cell_name attribute. See '?addCellNamesToGraph'. ")
+  }
 
   # Extract nhood embedding positions
   nhoodIDs <- as.numeric(vertex_attr(nh_graph)$name)
@@ -174,7 +193,7 @@ getNhoodPositions <- function(milo, nh_graph=NULL, dimred="UMAP") {
 
 
 
-filterMaxMappings <- function(nhood_sim, nhood_axis, long_format=FALSE) {
+getMaxMappings <- function(nhood_sim, nhood_axis, long_format=FALSE) {
 
   if(!long_format) {
     nhood_sim <- reshape2::melt(as.matrix(nhood_sim))
@@ -189,5 +208,15 @@ filterMaxMappings <- function(nhood_sim, nhood_axis, long_format=FALSE) {
   return(max_nhoods)
 }
 
+
+
+subsetMiloGroups <- function(milo, group_by, groups) {
+
+  nhood_filt <- subsetNhoods(milo, group_by, groups)
+  graph_filt <- induced_subgraph(nhoodGraph(milo), nhood_filt)
+  milo_filt <- subsetMiloGraph(r_milo, graph_filt)
+
+  return(milo_filt)
+}
 
 
