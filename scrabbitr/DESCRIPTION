@@ -28,6 +28,7 @@ Imports:
   miloR,
   viridis,
   edgeR,
+  DelayedArray,
   ggraph,
   igraph
 License: What license is it under?
