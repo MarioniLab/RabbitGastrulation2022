@@ -1,10 +1,16 @@
 
 
 
-
+#' @importFrom ggrastr rasterise
+#' @importFrom miloR nhoodGraph
+#' @importFrom SingleCellExperiment reducedDim
+#' @importFrom igraph vertex_attr
+#' @importFrom ggraph geom_edge_link0 geom_node_point
+#' @importFrom viridis scale_color_viridis
+#' @importFrom ggplot2 theme theme_classic
 plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Max correlation" ) {
 
-  nh_graph <- nhoodGraph(milo)
+  nh_graph <- miloR::nhoodGraph(milo)
   V(nh_graph)$max_correlation <- df_maxNhood[vertex_attr(nh_graph)$name, colour_by]
   layout <- reducedDim(milo, "UMAP")[as.numeric(vertex_attr(nhoodGraph(milo))$name),]
   colnames(layout) <- c("x","y")
@@ -16,7 +22,7 @@ plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Ma
     theme(axis.line = element_blank(), axis.text = element_blank(),
           axis.ticks = element_blank(), axis.title = element_blank(),
           aspect.ratio=1) +
-    scale_color_viridis(option="cividis",name="Max correlation")
+    viridis::scale_color_viridis(option="cividis",name="Max correlation")
 
   return(p)
 
@@ -28,7 +34,7 @@ plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Ma
 #' TODO: Split into smaller functions
 plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NULL, type="ridge", orientation="vertical",colour_by=NULL,size=0.2,
                                subset=NULL,decreasing=FALSE,rel_min_height=0, show_rank=FALSE, rank_size=2, group_colours=scrabbitr::celltype_colours, xlabel="Cell type", ylabel="Correlation") {
-  graph <- nhoodGraph(milo)
+  graph <- miloR::nhoodGraph(milo)
 
   df <- data.frame(nhood=vertex_attr(graph)$name,
                    max_sim=sim_values,
@@ -96,8 +102,10 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
 
 
 
-plotNhoodSim <- function(r_milo, m_milo, df_sim, reduced_dim="UMAP", colour_by, r_graph=NULL, m_graph=NULL, r_umap= FALSE, m_umap=FALSE,
-                         offset=c(10,0), reflect.X=FALSE, reflect.Y = FALSE, rotate=NULL, line_alpha=0.05, edge_alpha=0.2,
+plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
+                         r_graph=NULL, m_graph=NULL, r_umap= FALSE, m_umap=FALSE,
+                         offset=c(10,0), reflect.X=FALSE, reflect.Y = FALSE,
+                         rotate=NULL, line_alpha=0.05, edge_alpha=0.2,
                          colours=celltype_colours, legend_pos="none") {
 
   # Check if graph provided
@@ -180,6 +188,16 @@ plotNhoodSim <- function(r_milo, m_milo, df_sim, reduced_dim="UMAP", colour_by, 
 
 
 
+plotTrajMappings <- function(r_milo, m_milo, df_sim, group_by, groups,
+                             dimred = "UMAP", ...) {
 
+  r_traj <- subsetMiloGroups(r_milo, group_by, groups)
+  m_traj <- subsetMiloGroups(m_milo, group_by, groups)
+
+  p <- plotNhoodMappings(r_traj, m_traj, df_sim, dimred, group_by, ...)
+
+  return(p)
+
+}
 
 

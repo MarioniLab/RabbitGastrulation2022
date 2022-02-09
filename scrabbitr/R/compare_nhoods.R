@@ -121,9 +121,15 @@ calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
 
 
   # Compute similarity
+  nhood_sim <- matrix(0L, nrow=ncol(r_milo@nhoods), ncol(m_milo@nhoods))
   if(sim_measure %in% c("pearson", "kendall", "spearman")) {
     nhood_sim <- cor(as.matrix(r_vals), as.matrix(m_vals), method=sim_measure)
   }
+
+
+  rownames(nhood_sim) <- vertex_attr(nhoodGraph(r_milo))$name
+  colnames(nhood_sim) <- vertex_attr(nhoodGraph(m_milo))$name
+
 
   if(!is.null(export_dir)) {
     exportNhoodSim(export_dir, r_vals, m_vals, nhood_sim)
