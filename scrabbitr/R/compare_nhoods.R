@@ -36,13 +36,17 @@ getScranHVGs <- function(sce, n_hvgs, block=NULL) {
 
 
 selectNhoodFeatures <- function(milo, hvg_selection="scran", max_hvgs=2000,
-                                hvg_block=NULL) {
+                                hvg_block=NULL, exclude_genes = NULL) {
 
   # If hvgs already provided
   if(length(hvg_selection)>1) return(hvg_selection)
 
   if(!is.null(hvg_block)) {
     hvg_block <- colData(milo, hvg_block)
+  }
+  
+  if(!is.null(exclude_genes)) {
+    milo <- milo[!(rownames(milo) %in% exclude_genes), ]
   }
 
   if(hvg_selection == "scran") {
