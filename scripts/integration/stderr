@@ -1,0 +1,23 @@
+ERROR conda.cli.main_run:execute(33): Subprocess for 'conda run ['python', 'integrate_oc_hs.py']' command failed.  (See above for error)
+Traceback (most recent call last):
+  File "integrate_oc_hs.py", line 36, in <module>
+    save_processed=False)
+  File "/hps/software/users/marioni/dkeitley/miniconda3/envs/SAMap/lib/python3.7/site-packages/samap/mapping.py", line 202, in __init__
+    id1, id2, f_maps=f_maps, reciprocate=reciprocal_blast
+  File "/hps/software/users/marioni/dkeitley/miniconda3/envs/SAMap/lib/python3.7/site-packages/samap/mapping.py", line 989, in calculate_blast_graph
+    B = pd.read_csv(fB, sep="\t", header=None, index_col=0)
+  File "/hps/software/users/marioni/dkeitley/miniconda3/envs/SAMap/lib/python3.7/site-packages/pandas/util/_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "/hps/software/users/marioni/dkeitley/miniconda3/envs/SAMap/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 586, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/hps/software/users/marioni/dkeitley/miniconda3/envs/SAMap/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 482, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/hps/software/users/marioni/dkeitley/miniconda3/envs/SAMap/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 811, in __init__
+    self._engine = self._make_engine(self.engine)
+  File "/hps/software/users/marioni/dkeitley/miniconda3/envs/SAMap/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 1040, in _make_engine
+    return mapping[engine](self.f, **self.options)  # type: ignore[call-arg]
+  File "/hps/software/users/marioni/dkeitley/miniconda3/envs/SAMap/lib/python3.7/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 69, in __init__
+    self._reader = parsers.TextReader(self.handles.handle, **kwds)
+  File "pandas/_libs/parsers.pyx", line 549, in pandas._libs.parsers.TextReader.__cinit__
+pandas.errors.EmptyDataError: No columns to parse from file
+

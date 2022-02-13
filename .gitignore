@@ -9,3 +9,6 @@ data-out/
 scrabbitpy/src/scrabbit/__pycache__/
 srabbitpy/src/scrabbit.egg-info/
 .Rproj.user
+lib/
+notebooks/.Rdata*
+notebooks/tmp/
