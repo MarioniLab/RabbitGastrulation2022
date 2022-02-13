@@ -11,7 +11,15 @@
 plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Max correlation" ) {
 
   nh_graph <- miloR::nhoodGraph(milo)
-  V(nh_graph)$max_correlation <- df_maxNhood[vertex_attr(nh_graph)$name, colour_by]
+  
+  # TODO: check df_maxNhood order is same as nh_graph
+  V(nh_graph)$max_correlation <- df_maxNhood[[colour_by]]
+  
+  # data.frame / data.table implementations if order different
+  #V(nh_graph)$max_correlation <- df_maxNhood[vertex_attr(nh_graph)$name, colour_by]
+  #V(nh_graph)$max_correlation <- df_maxNhood[match(vertex_attr(nh_graph)$name, df_maxNhood[[id.col]]),]
+  
+  
   layout <- reducedDim(milo, "UMAP")[as.numeric(vertex_attr(nhoodGraph(milo))$name),]
   colnames(layout) <- c("x","y")
 
@@ -154,8 +162,8 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
   r_nhoodIDs <- as.numeric(vertex_attr(r_graph)$name)
   m_nhoodIDs <- as.numeric(vertex_attr(m_graph)$name)
 
-  sim_filt <- df_sim[(df_sim$r_nhood %in%  r_nhoodIDs) &
-                       (df_sim$m_nhood %in% m_nhoodIDs),]
+  sim_filt <- df_sim[(df_sim[,1] %in%  r_nhoodIDs) &
+                       (df_sim[,2] %in% m_nhoodIDs),]
 
 
   # Give each line a unique name
@@ -163,10 +171,10 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
 
   # Link rabbit and mouse nhood positions by alignment name
   r_lines <- sim_filt
-  r_lines[,c("x","y")] <- r_nhoodPos[as.character(r_lines$r_nhood),]
+  r_lines[,c("x","y")] <- r_nhoodPos[as.character(r_lines[,1]),]
 
   m_lines <- sim_filt
-  m_lines[, c("x","y")] <- m_nhoodPos[as.character(m_lines$m_nhood),]
+  m_lines[, c("x","y")] <- m_nhoodPos[as.character(m_lines[,2]),]
   df_lines <- rbind(r_lines, m_lines)
 
 

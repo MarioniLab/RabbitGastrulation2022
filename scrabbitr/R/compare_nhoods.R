@@ -70,23 +70,23 @@ exportNhoodSim <- function(export_dir, r_vals, m_vals, nhood_sim) {
 #' calNhoodSim(r_milo, m_milo, rm_orthologs, hvg_block="sample")
 calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
                          sim_preprocessing="gene_spec", sim_measure="pearson",
-                         hvg_join_type="intersection", export_dir=NULL, ...) {
+                         hvg_join_type="intersection", export_dir=NULL, verbose=TRUE,
+                         ...) {
 
   # Check data is normalised
   if(is.null(logcounts(r_milo)) | is.null(logcounts(m_milo))) {
     stop("The neighbourhood comparison pipeline requires normalised logcounts.")
   }
 
-  r_assay <- logcounts(r_milo)
-  m_assay <- logcounts(m_milo)
-
 
   # Select features
+  if(verbose) message("Selecting features...")
   r_features <- selectNhoodFeatures(r_milo, ...)
   m_features <- selectNhoodFeatures(m_milo, ...)
 
 
   # Combine features
+  if(verbose) message("Combining features...")
   if(hvg_join_type == "union") {
     sim_features <- orthologs[orthologs[,1] %in% r_features |
                                 orthologs[,2] %in% m_features, ]
@@ -97,11 +97,16 @@ calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
     stop("Invalid hvg_join_type. Please specify either 'union' or 'intersection'.")
   }
 
+
+  r_assay <- logcounts(r_milo)
+  m_assay <- logcounts(m_milo)
+
   r_filt <- r_assay[sim_features[,1],]
   m_filt <- m_assay[sim_features[,2],]
 
 
   # Average across nhoods
+  if(verbose) message("Averaging expression across neighbourhoods...")
   r_vals <- calcNhoodMean(r_filt, r_milo@nhoods)
   m_vals <- calcNhoodMean(m_filt, m_milo@nhoods)
 
@@ -121,6 +126,7 @@ calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
 
 
   # Compute similarity
+  if(verbose) message("Computing similarity across neighbourhoods...")
   nhood_sim <- matrix(0L, nrow=ncol(r_milo@nhoods), ncol(m_milo@nhoods))
   if(sim_measure %in% c("pearson", "kendall", "spearman")) {
     nhood_sim <- cor(as.matrix(r_vals), as.matrix(m_vals), method=sim_measure)
@@ -132,6 +138,7 @@ calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
 
 
   if(!is.null(export_dir)) {
+    if(verbose) message("Exporting results...")
     exportNhoodSim(export_dir, r_vals, m_vals, nhood_sim)
   }
 
@@ -175,6 +182,15 @@ addCellNamesToGraph <- function(milo) {
 }
 
 
+addAttributeToGraph <- function(milo, id) {
+  nh_graph <- nhoodGraph(milo)
+  nhood_ids <- as.numeric(vertex_attr(nh_graph)$name)
+  nhood_inds <- colnames(milo)[nhood_ids]
+  V(nh_graph)$celltype <- colData(milo)[nhood_inds, id]
+  nhoodGraph(milo) <- nh_graph
+  return(milo)
+}
+
 
 getNhoodPositions <- function(milo, nh_graph=NULL, dimred="UMAP") {
 
@@ -199,28 +215,47 @@ getNhoodPositions <- function(milo, nh_graph=NULL, dimred="UMAP") {
 
 
 
-getMaxMappings <- function(nhood_sim, nhood_axis, long_format=FALSE) {
+
+
+getMaxMappings <- function(nhood_sim, nhood_axis, long_format=FALSE,
+                           col.names = c("nhoods1", "nhoods2", "sim")) {
 
   if(!long_format) {
     nhood_sim <- reshape2::melt(as.matrix(nhood_sim))
-    colnames(nhood_sim) <- c("nhoods1", "nhoods2", "sim")
+    colnames(nhood_sim) <- col.names
   }
 
-  df_sim <- nhood_sim[order(nhood_sim[,nhood_axis], -nhood_sim[,3]), ]
-  max_nhoods <- df_sim[!duplicated(df_sim[,nhood_axis]),]
-  rownames(max_nhoods) <- max_nhoods[,nhood_axis]
-  #max_nhoods <- max_nhoods[vertex_attr(r_graph)$name,]
+  dt <- as.data.table(nhood_sim)
+  colnames(dt) <- col.names
+  
+  dt_key <- colnames(dt)[nhood_axis]
+  setkeyv(dt,dt_key)
 
-  return(max_nhoods)
+  max_dt <- dt[, .SD[which.max(sim)], by=dt_key]
+  row_inds <- match(as.character(nhood_sim[,nhood_axis]), max_dt[[dt_key]])
+  out_dt <- max_dt[row_inds, col.names]
+
+  return(out_dt)
 }
 
+
+
+
+# Subset neighbourhoods based on colData observation
+subsetNhoods <- function(milo, obs, values) {
+  milo_graph <- nhoodGraph(milo)
+  nhood_ids <- as.numeric(vertex_attr(milo_graph)$name)
+  nhood_obs <- colData(milo)[nhood_ids,obs]
+  nhood_filt <- as.character(nhood_ids[nhood_obs %in% values])
+  return(nhood_filt)
+}
 
 
 subsetMiloGroups <- function(milo, group_by, groups) {
 
   nhood_filt <- subsetNhoods(milo, group_by, groups)
   graph_filt <- induced_subgraph(nhoodGraph(milo), nhood_filt)
-  milo_filt <- subsetMiloGraph(r_milo, graph_filt)
+  milo_filt <- subsetMiloGraph(milo, graph_filt)
 
   return(milo_filt)
 }
