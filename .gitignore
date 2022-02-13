@@ -12,3 +12,5 @@ srabbitpy/src/scrabbit.egg-info/
 lib/
 notebooks/.Rdata*
 notebooks/tmp/
+archive/
+paper_drafts/
