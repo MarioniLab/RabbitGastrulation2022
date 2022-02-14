@@ -4,8 +4,7 @@
 #' @param X Matrix of expression values
 #' @param mask Indicator matrix specifying cell groupings
 calcNhoodMean <- function(X, mask) {
-
-  ncells <- colSums(mask)
+  ncells <- Matrix::colSums(mask)
   ncells_inv <- 1/ncells
   ncells_mat <- Matrix::Diagonal(x=ncells_inv)
 
@@ -21,7 +20,7 @@ calcNhoodMean <- function(X, mask) {
 #' Calculates gene specificity values
 calcGeneSpec <- function(nhood_mean) {
   N <- ncol(nhood_mean)
-  col_sums <- colSums(nhood_mean)
+  col_sums <- Matrix::colSums(nhood_mean)
   gspec <- nhood_mean %*% diag(N/col_sums)
   return(gspec)
 }
@@ -69,9 +68,9 @@ exportNhoodSim <- function(export_dir, r_vals, m_vals, nhood_sim) {
 }
 
 
-
 #' @examples
 #' calNhoodSim(r_milo, m_milo, rm_orthologs, hvg_block="sample")
+#' @export
 calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
                          sim_preprocessing="gene_spec", sim_measure="pearson",
                          hvg_join_type="intersection", export_dir=NULL, verbose=TRUE,
@@ -160,13 +159,15 @@ subsetMiloGraph <- function(r_milo, r_graph) {
   r_indCells <- colnames(r_milo)[r_nhoodIDs]
 
   # Identify cells within r_graph neighbourhoods
-  rhood_hits <- rowSums(r_milo@nhoods[,as.character(r_nhoodIDs)])
+  rhood_hits <- Matrix::rowSums(r_milo@nhoods[,as.character(r_nhoodIDs)])
 
   # Milo bug workaround - index cells included in r_milo@nhoods in Milo dev branch
   rhood_cells <- unique(c(colnames(r_milo)[rhood_hits > 0], r_indCells))
 
   # Filter original SingleCellExperiment
   r_milo <- r_milo[,rhood_cells]
+  
+  nhoodGraph(r_milo) <- r_graph
 
   return(r_milo)
 }
@@ -174,6 +175,7 @@ subsetMiloGraph <- function(r_milo, r_graph) {
 
 # Needed to keep track of index cells when using subseted Milo objects
 # E.g. when plotting UMAP of a subsetted Milo object
+#' @export
 addCellNamesToGraph <- function(milo) {
 
   nh_graph <- nhoodGraph(milo)
@@ -196,6 +198,7 @@ addAttributeToGraph <- function(milo, id) {
 }
 
 
+#' @export
 getNhoodPositions <- function(milo, nh_graph=NULL, dimred="UMAP") {
 
   # Check if graph provided
@@ -220,7 +223,7 @@ getNhoodPositions <- function(milo, nh_graph=NULL, dimred="UMAP") {
 
 
 
-
+#' @export
 getMaxMappings <- function(nhood_sim, nhood_axis, long_format=FALSE,
                            col.names = c("nhoods1", "nhoods2", "sim")) {
 
@@ -233,13 +236,9 @@ getMaxMappings <- function(nhood_sim, nhood_axis, long_format=FALSE,
   colnames(dt) <- col.names
   
   dt_key <- colnames(dt)[nhood_axis]
-  setkeyv(dt,dt_key)
-
-  max_dt <- dt[, .SD[which.max(sim)], by=dt_key]
-  row_inds <- match(as.character(nhood_sim[,nhood_axis]), max_dt[[dt_key]])
-  out_dt <- max_dt[row_inds, col.names]
-
-  return(out_dt)
+  max_dt <- dt[, .SD[which.max(get(col.names[3]))], by=dt_key]
+  
+  return(max_dt)
 }
 
 
@@ -255,8 +254,10 @@ subsetNhoods <- function(milo, obs, values) {
 }
 
 
+#' @export
 subsetMiloGroups <- function(milo, group_by, groups) {
-
+  milo <- addCellNamesToGraph(milo)
+  milo <- addAttributeToGraph(milo, group_by)
   nhood_filt <- subsetNhoods(milo, group_by, groups)
   graph_filt <- induced_subgraph(nhoodGraph(milo), nhood_filt)
   milo_filt <- subsetMiloGraph(milo, graph_filt)

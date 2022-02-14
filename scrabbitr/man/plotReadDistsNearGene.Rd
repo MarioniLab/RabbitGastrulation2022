@@ -4,7 +4,7 @@
 \alias{plotReadDistsNearGene}
 \title{Plots histogram of distances of reads that are nearest to the gene given}
 \usage{
-plotReadDistsNearGene(gene_id, bam_file, gtf_gf)
+plotReadDistsNearGene(gene_id, read_ranges, gene_ranges, colour = "seagreen4")
 }
 \description{
 Plots histogram of distances of reads that are nearest to the gene given

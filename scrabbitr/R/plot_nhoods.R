@@ -8,6 +8,7 @@
 #' @importFrom ggraph geom_edge_link0 geom_node_point
 #' @importFrom viridis scale_color_viridis
 #' @importFrom ggplot2 theme theme_classic
+#' @export
 plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Max correlation" ) {
 
   nh_graph <- miloR::nhoodGraph(milo)
@@ -40,8 +41,9 @@ plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Ma
 
 #' sim_values needs to be in order of milo nhoods
 #' TODO: Split into smaller functions
+#' @export
 plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NULL, type="ridge", orientation="vertical",colour_by=NULL,size=0.2,
-                               subset=NULL,decreasing=FALSE,rel_min_height=0, show_rank=FALSE, rank_size=2, group_colours=scrabbitr::celltype_colours, xlabel="Cell type", ylabel="Correlation") {
+                               subset=NULL,decreasing=FALSE,rel_min_height=0, show_rank=FALSE, rank_size=2, group_colours=scrabbitr::getCelltypeColours(), xlabel="Cell type", ylabel="Correlation") {
   graph <- miloR::nhoodGraph(milo)
 
   df <- data.frame(nhood=vertex_attr(graph)$name,
@@ -96,7 +98,9 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
   }
 
   p <- p +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+	  axis.text.y = element_text(size=5),panel.grid.minor = element_line(size = 0.15), 
+	            panel.grid.major = element_line(size = 0.3)) +
     scale_fill_manual(values = group_colours[names(group_colours) %in% unique(df$group)], name = "") +
     guides(fill="none",color=guide_legend(title="",override.aes = list(fill = "white"))) +
     xlab(xlabel) + ylab(ylabel)
@@ -109,11 +113,11 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
 
 
 
-
+#' @export
 plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
                          r_graph=NULL, m_graph=NULL, r_umap= FALSE, m_umap=FALSE,
                          offset=c(10,0), reflect.X=FALSE, reflect.Y = FALSE,
-                         rotate=NULL, line_alpha=0.05, edge_alpha=0.2,
+                         rotate=NULL, line_alpha=0.02, edge_alpha=0.01,
                          colours=celltype_colours, legend_pos="none") {
 
   # Check if graph provided
@@ -127,7 +131,7 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
   # TODO: Fix this
   if(!is.null(rotate)) {
     rotate <- rotate*pi/180
-    com <- colMeans(m_nhoodPos[,1:2])
+    com <- Matrix::colMeans(m_nhoodPos[,1:2])
     m_nhoodPos = sweep(m_nhoodPos,2,com, "-")
     m_nhoodPos[,1] = m_nhoodPos[,1]*cos(rotate) - m_nhoodPos[,2]*sin(rotate)
     m_nhoodPos[,2] = m_nhoodPos[,1]*sin(rotate) + m_nhoodPos[,2]*cos(rotate)
@@ -162,19 +166,24 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
   r_nhoodIDs <- as.numeric(vertex_attr(r_graph)$name)
   m_nhoodIDs <- as.numeric(vertex_attr(m_graph)$name)
 
-  sim_filt <- df_sim[(df_sim[,1] %in%  r_nhoodIDs) &
-                       (df_sim[,2] %in% m_nhoodIDs),]
+  df_simFilt <- setNames(df_simFilt, c("r_nhood", "m_nhood", "sim"))
 
+  sim_filt <- df_simFilt[r_nhood %in% r_nhoodIDs & 
+			 m_nhood %in% m_nhoodIDs]
 
   # Give each line a unique name
-  sim_filt$alignment <- paste0("align_",sim_filt$r_nhood,"_",sim_filt$m_nhood)
+  concat_cols <- names(sim_filt)[1:2]
+  sprintfStatement <- stringi::stri_c("sprintf('",stringi::stri_flatten(rep("%i_",
+			length(concat_cols))),"', ",stringi::stri_c(concat_cols,collapse = ","),")")
+  sim_filt <- sim_filt[,alignment := eval(parse(text = sprintfStatement))]
+  
 
   # Link rabbit and mouse nhood positions by alignment name
   r_lines <- sim_filt
-  r_lines[,c("x","y")] <- r_nhoodPos[as.character(r_lines[,1]),]
+  r_lines[,c("x","y")] <- r_nhoodPos[as.character(r_lines[[1]]),]
 
   m_lines <- sim_filt
-  m_lines[, c("x","y")] <- m_nhoodPos[as.character(m_lines[,2]),]
+  m_lines[, c("x","y")] <- m_nhoodPos[as.character(m_lines[[2]]),]
   df_lines <- rbind(r_lines, m_lines)
 
 
@@ -195,7 +204,7 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
 }
 
 
-
+#' @export
 plotTrajMappings <- function(r_milo, m_milo, df_sim, group_by, groups,
                              dimred = "UMAP", ...) {
 

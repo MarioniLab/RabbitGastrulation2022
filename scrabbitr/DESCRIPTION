@@ -10,13 +10,14 @@ Description: Provides R functions for processing and analysing single-cell
 Depends:
 	R (>= 4.0),
 	SingleCellExperiment,
-  ggplot2
+  ggplot2,
+  data.table
 Imports:
   Rsamtools,
   GenomicRanges,
   GenomicAlignments,
-  data.table,
   Matrix,
+  data.table,
   scater,
   dplyr,
   stats,

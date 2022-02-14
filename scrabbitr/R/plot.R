@@ -42,9 +42,9 @@ plotPseudocells <- function(sce, pseudo_embed, dimred="UMAP",
 
 #' @importFrom stats aggregate
 #' @importFrom ggrepel geom_text_repel
-#' @importFrom ggalluvial geom_alluvium geom_stratum geom_flow after_stat
+#' @importFrom ggalluvial geom_alluvium geom_stratum geom_flow
 #' @importFrom ggplot2 ggplot geom_text scale_x_discrete theme
-#' @imporFrom ggplot2 scale_fill_manual theme_minimal aes element_blank
+#' @importFrom ggplot2 scale_fill_manual theme_minimal aes element_blank
 #' @importFrom ggplot2 element_text
 #' @export
 plotAnnotationAlluvium <- function(sce, old, new, ncell_thresh=10,
@@ -116,7 +116,7 @@ plotAnnotationAlluvium <- function(sce, old, new, ncell_thresh=10,
 #' @importFrom igraph simplify vertex_attr V
 #' @importFrom SingleCellExperiment reducedDim
 #' @importFrom ggraph ggraph geom_node_point geom_edge_link0
-#' @importFrom ggplot theme aes theme_classic element_blank
+#' @importFrom ggplot2 theme aes theme_classic element_blank
 #' @importFrom viridis scale_color_viridis
 #' @importFrom ggrastr rasterise
 #' @export
@@ -148,8 +148,8 @@ plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Ma
 #' @importFrom miloR nhoodGraph
 #' @importFrom SingleCellExperiment colData
 #' @importFrom igraph vertex_attr
-#' @importFrom ggplot ggplot geom_boxplot geom_violin aes coord_flip facet_grid
-#' @importFrom ggplot theme guides scale_fill_manual xlab ylab
+#' @importFrom ggplot2 ggplot geom_boxplot geom_violin aes coord_flip facet_grid
+#' @importFrom ggplot2 theme guides scale_fill_manual xlab ylab
 #' @importFrom ggridges geom_density_ridges
 #' @export
 plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NULL, type="ridge",
