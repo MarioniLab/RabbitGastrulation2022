@@ -32,7 +32,7 @@ m_milo <- readRDS(opts$milo2)
 
 
 runNhoodTest(opts$test, exp_outdir,
-                         r_milo, m_milo, orthologs, ...)
+                         r_milo, m_milo, orthologs)
 
 
 
@@ -184,10 +184,38 @@ runGSpecTest <- function(test_dir, r_milo, m_milo, rm_orthologs) {
 }
 
 
+runCorTypeTest <- function(test_dir, r_milo, m_milo, rm_orthologs) {
+  
+  # Create test directory
+  dir.create(file.path(test_dir), showWarnings = FALSE)
+  
+  # Test with/without gene specificity
+  runNhoodPipeline(paste0(test_dir, "pearson"), r_milo, m_milo, rm_orthologs, 
+                   sim_measure="pearson")
+  runNhoodPipeline(paste0(test_dir, "spearman"), r_milo, m_milo, rm_orthologs, 
+                   sim_measure="spearman")
+  runNhoodPipeline(paste0(test_dir, "kendall"), r_milo, m_milo, rm_orthologs, 
+                   sim_measure="kendall")
+
+}
+
+
+runHvgJoinTest <- function(test_dir, r_milo, m_milo, rm_orthologs) {
+  # Create test directory
+  dir.create(file.path(test_dir), showWarnings = FALSE)
+  
+  # Test with/without gene specificity
+  runNhoodPipeline(paste0(test_dir, "intersection"), r_milo, m_milo, rm_orthologs, 
+                   hvg_join_type="intersection")
+  runNhoodPipeline(paste0(test_dir, "union"), r_milo, m_milo, rm_orthologs, 
+                   hvg_join_type="union")
+}
+
+
 
 
 runNhoodTest <- function(test_name, base_dir,
-                            r_milo, m_milo, rm_orthologs, ...) {
+                            r_milo, m_milo, rm_orthologs) {
 
   # Create test directory if necessary
   dir.create(file.path(base_dir, test_name), showWarnings = FALSE)
@@ -204,37 +232,16 @@ runNhoodTest <- function(test_name, base_dir,
          },
          
          TEST_CORTYPE = {
-           
+           runCorTypeTest(test_outdir, r_milo, m_milo, rm_orthologs)
          },
          
          TEST_HVG_JOIN = {
-           
+           runHvgJoinTest(test_outdir, r_milo, m_milo, rm_orthologs)
          }
          
   ) 
   
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-# Test with/without gene specificity
-runNhoodSimTest("exp-gene_spec", "test-wout_gspec", r_milo, m_milo, rm_orthologs, sim_preprocessing=NULL)
-runNhoodSimTest("exp-gene_spec", "test-w_gspec", r_milo, m_milo, rm_orthologs, sim_preprocessing="gene_spec")
-
-
-# Test pearson vs spearman
-runNhoodSimTest("exp-cor_type", "test_pearson", r_milo, m_milo, rm_orthologs, sim_measure="pearson")
-runNhoodSimTest("exp-cor_type", "test_spearman", r_milo, m_milo, rm_orthologs, sim_measure="spearman")
-
 
 
