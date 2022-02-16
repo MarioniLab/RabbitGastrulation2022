@@ -1,40 +1,5 @@
 
 
-library(optparse)
-library(scrabbitr)
-
-set.seed(44)
-
-
-###################
-## Parse options ##
-###################
-
-option_list = list(
-  make_option(c("-n1", "--milo1"), type="character", default=NULL,
-              help="path to first milo file", metavar="character"),
-  make_option(c("-n2", "--milo2"), type="character", default=NULL,
-              help="path to second milo file", metavar="character"),
-  make_option(c("-t", "--test"), type="character", default=NULL,
-              help="name of the test to run", metavar="character"),
-  make_option(c("-o", "--out"), type="character", default="All",
-              help="basic outpath", metavar="character"))
-
-opt_parser = OptionParser(option_list=option_list)
-opts = parse_args(opt_parser)
-
-
-
-# Load data
-r_milo <- readRDS(opts$milo1)
-m_milo <- readRDS(opts$milo2)
-
-
-
-runNhoodTest(opts$test, exp_outdir,
-                         r_milo, m_milo, orthologs)
-
-
 
 # hvg_selection = "scran" | "seurat" | (provide file of genes)
 # hvg_exclude = (provide file of genes)
@@ -61,7 +26,7 @@ allan_celltypes <- c("Allantois","Lateral plate mesoderm", "Epiblast", "Primitiv
 
 
 
-exportTrajectoryTestPlots <- function(r_milo, m_milo, df_simFilt, export_dir) {
+exportTrajectoryTestPlots <- function(r_milo, m_milo, df_simFilt, exp_outdir) {
   
   # Gut
   plot_gut <- plotTrajMappings(r_milo, m_milo, df_simFilt, 
@@ -70,7 +35,7 @@ exportTrajectoryTestPlots <- function(r_milo, m_milo, df_simFilt, export_dir) {
                                offset=c(0,3),line_alpha=0.15,edge_alpha=0.01, 
                                reflect.X=FALSE, legend_pos="right")
   
-  ggsave(paste0(export_dir,"r_gut_sim.pdf"), plot_gut, width=18, 
+  ggsave(paste0(exp_outdir,"_r_gut_sim.pdf"), plot_gut, width=18, 
          height=8, dpi=300)
   
   
@@ -81,7 +46,7 @@ exportTrajectoryTestPlots <- function(r_milo, m_milo, df_simFilt, export_dir) {
                                 offset=c(20,20),reflect.X=TRUE,line_alpha=0.1,
                                 edge_alpha=0.01,legend_pos="right")
   
-  ggsave(paste0(exp_outdir, "r_mesoderm_sim.pdf"), plot_meso, width=18, 
+  ggsave(paste0(exp_outdir, "_r_mesoderm_sim.pdf"), plot_meso, width=18, 
          height=8, dpi=300)
   
   
@@ -92,14 +57,14 @@ exportTrajectoryTestPlots <- function(r_milo, m_milo, df_simFilt, export_dir) {
                                  reflect.X=F,reflect.Y=T,line_alpha=0.05,
                                  edge_alpha=0.01, legend="right")
   
-  ggsave(paste0(exp_outdir, "r_allantois_sim.pdf"), plot_allan, width=18, 
+  ggsave(paste0(exp_outdir, "_r_allantois_sim.pdf"), plot_allan, width=18, 
          height=8, dpi=300)
   
   
 }
 
 
-exporNhoodSimTestPlots <- function(r_milo, m_milo, nhood_sim, export_dir) {
+exporNhoodSimTestPlots <- function(r_milo, m_milo, nhood_sim, exp_outdir) {
   
   
   r_maxNhoods <- getMaxMappings(nhood_sim, 1, long_format=FALSE)
@@ -109,15 +74,15 @@ exporNhoodSimTestPlots <- function(r_milo, m_milo, nhood_sim, export_dir) {
   
   # Maximum similarity plots
   plot_r_maxsim <- plotNhoodMaxSim(r_milo, r_maxNhoods)
-  ggsave(paste0(exp_outdir,"r_max_sim_plot.pdf"), plot_r_maxsim, 
+  ggsave(paste0(exp_outdir,"_r_max_sim_plot.pdf"), plot_r_maxsim, 
          width=10, height=8, dpi=300)
   
   plot_m_maxsim <- plotNhoodMaxSim(m_milo, m_maxNhoods)
-  ggsave(paste0(exp_outdir,"m_max_sim_plot.pdf"), plot_m_maxsim, 
+  ggsave(paste0(exp_outdir,"_m_max_sim_plot.pdf"), plot_m_maxsim, 
          width=10, height=8, dpi=300)
   
-  plot_rm_maxsim <- grid.arrange(p1,p2,nrow=1)
-  ggsave(paste0(exp_outdir,"rm_max_sim_plot.pdf"), plot_rm_maxsim, 
+  plot_rm_maxsim <- gridExtra::grid.arrange(plot_r_maxsim,plot_m_maxsim,nrow=1)
+  ggsave(paste0(exp_outdir,"_rm_max_sim_plot.pdf"), plot_rm_maxsim, 
          width=18, height=8, dpi=300)
   
   
@@ -125,12 +90,12 @@ exporNhoodSimTestPlots <- function(r_milo, m_milo, nhood_sim, export_dir) {
   plot_ridgeline <- plotNhoodSimGroups(r_milo, r_maxNhoods$sim, xlabel="Correlation", 
                                        ylabel="Cell type",
                                        size=0.1,rel_min_height=0.001)
-  ggsave(paste0(exp_outdir,"r_celltype_ridgeline_plot.pdf"), plot_ridgeline, width=6, 
+  ggsave(paste0(exp_outdir,"_r_celltype_ridgeline_plot.pdf"), plot_ridgeline, width=6, 
          height=6, dpi=300)
   
   
   # Trajectory plots
-  exportTrajectoryTestPlots(r_milo, m_milo, df_simFilt, export_dir)
+  exportTrajectoryTestPlots(r_milo, m_milo, df_simFilt, exp_outdir)
   
   
 }
@@ -142,7 +107,7 @@ runNhoodPipeline <- function(export_dir, r_milo, m_milo, rm_orthologs, ...) {
   
   # Create output directory if necessary
   dir.create(file.path(export_dir), showWarnings = FALSE)
-  
+
   out <- calcNhoodSim(r_milo, m_milo, rm_orthologs,
                       export_dir = export_dir, ...)
   
@@ -161,7 +126,7 @@ runNGenesTest <- function(test_dir, r_milo, m_milo, rm_orthologs) {
   n_hvgs <- c(50,100,200,500, 1000, 1500, 2000, 3000, 5000)
   
   for(n_hvg in n_hvgs) {
-    test_run_path <- paste0(test_dir, "/", n_hvgs, "_hvgs/")
+    test_run_path <- paste0(test_dir, as.character(n_hvg), "_hvgs/")
     runNhoodPipeline(test_run_path, r_milo, m_milo, rm_orthologs, max_hvgs=n_hvg)
   }
   
@@ -176,9 +141,9 @@ runGSpecTest <- function(test_dir, r_milo, m_milo, rm_orthologs) {
   dir.create(file.path(test_dir), showWarnings = FALSE)
   
   # Test with/without gene specificity
-  runNhoodPipeline(paste0(test_dir, "wout_gspec"), r_milo, m_milo, rm_orthologs, 
+  runNhoodPipeline(paste0(test_dir, "wout_gspec/"), r_milo, m_milo, rm_orthologs, 
                    sim_preprocessing=NULL)
-  runNhoodPipeline(paste0(test_dir, "w_gspec"), r_milo, m_milo, rm_orthologs, 
+  runNhoodPipeline(paste0(test_dir, "w_gspec/"), r_milo, m_milo, rm_orthologs, 
                    sim_preprocessing="gene_spec")
   
 }
@@ -223,7 +188,7 @@ runNhoodTest <- function(test_name, base_dir,
   
   switch(test_name,
          
-         TEST_NGENES = {
+         TEST_N_GENES = {
            runNGenesTest(test_outdir, r_milo, m_milo, rm_orthologs)
          },
          
@@ -244,4 +209,41 @@ runNhoodTest <- function(test_name, base_dir,
 
 }
 
+
+
+library(optparse)
+library(scrabbitr)
+
+set.seed(44)
+
+
+###################
+## Parse options ##
+###################
+
+option_list = list(
+  make_option(c("-n", "--r_milo"), type="character", default=NULL,
+              help="path to first milo file", metavar="character"),
+  make_option(c("-m", "--m_milo"), type="character", default=NULL,
+              help="path to second milo file", metavar="character"),
+  make_option(c("-x", "--orthologs"), type="character", default=NULL,
+              help="path to one-to-one orthologs", metavar="character"),	    
+  make_option(c("-t", "--test"), type="character", default=NULL,
+              help="name of the test to run", metavar="character"),
+  make_option(c("-o", "--out"), type="character", default="All",
+              help="basic outpath", metavar="character"))
+
+opt_parser = OptionParser(option_list=option_list)
+opts = parse_args(opt_parser)
+
+
+
+# Load data
+r_milo <- readRDS(opts$r_milo)
+m_milo <- readRDS(opts$m_milo)
+
+rm_orthologs <- read.table(opts$orthologs, sep="\t")
+
+runNhoodTest(opts$test, opts$out,
+                         r_milo, m_milo, rm_orthologs)
 
