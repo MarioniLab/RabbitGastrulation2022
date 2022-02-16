@@ -4,7 +4,7 @@
 #' @importFrom ggrastr rasterise
 #' @importFrom miloR nhoodGraph
 #' @importFrom SingleCellExperiment reducedDim
-#' @importFrom igraph vertex_attr
+#' @importFrom igraph vertex_attr V
 #' @importFrom ggraph geom_edge_link0 geom_node_point
 #' @importFrom viridis scale_color_viridis
 #' @importFrom ggplot2 theme theme_classic
@@ -14,7 +14,7 @@ plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Ma
   nh_graph <- miloR::nhoodGraph(milo)
   
   # TODO: check df_maxNhood order is same as nh_graph
-  V(nh_graph)$max_correlation <- df_maxNhood[[colour_by]]
+  igraph::V(nh_graph)$max_correlation <- df_maxNhood[[colour_by]]
   
   # data.frame / data.table implementations if order different
   #V(nh_graph)$max_correlation <- df_maxNhood[vertex_attr(nh_graph)$name, colour_by]
@@ -41,6 +41,7 @@ plotNhoodMaxSim <- function(milo, df_maxNhood, colour_by="sim", legend_title="Ma
 
 #' sim_values needs to be in order of milo nhoods
 #' TODO: Split into smaller functions
+#' @importFrom ggridges theme_ridges geom_density_ridges
 #' @export
 plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NULL, type="ridge", orientation="vertical",colour_by=NULL,size=0.2,
                                subset=NULL,decreasing=FALSE,rel_min_height=0, show_rank=FALSE, rank_size=2, group_colours=scrabbitr::getCelltypeColours(), xlabel="Cell type", ylabel="Correlation") {
@@ -111,8 +112,8 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
 
 
 
-
-
+#' @importFrom ggraph get_edges geom_edge_link0 create_layout
+#' @importFrom igraph vertex_attr simplify
 #' @export
 plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
                          r_graph=NULL, m_graph=NULL, r_umap= FALSE, m_umap=FALSE,
@@ -121,8 +122,8 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
                          colours=celltype_colours, legend_pos="none") {
 
   # Check if graph provided
-  if(is.null(r_graph)) { r_graph <- nhoodGraph(r_milo) }
-  if(is.null(m_graph)) { m_graph <- nhoodGraph(m_milo) }
+  if(is.null(r_graph)) { r_graph <- miloR::nhoodGraph(r_milo) }
+  if(is.null(m_graph)) { m_graph <- miloR::nhoodGraph(m_milo) }
 
   # Get nhood embedding positions
   r_nhoodPos <- getNhoodPositions(r_milo, r_graph)
@@ -166,9 +167,9 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
   r_nhoodIDs <- as.numeric(vertex_attr(r_graph)$name)
   m_nhoodIDs <- as.numeric(vertex_attr(m_graph)$name)
 
-  df_simFilt <- setNames(df_simFilt, c("r_nhood", "m_nhood", "sim"))
+  df_sim <- setNames(df_sim, c("r_nhood", "m_nhood", "sim"))
 
-  sim_filt <- df_simFilt[r_nhood %in% r_nhoodIDs & 
+  sim_filt <- df_sim[r_nhood %in% r_nhoodIDs & 
 			 m_nhood %in% m_nhoodIDs]
 
   # Give each line a unique name

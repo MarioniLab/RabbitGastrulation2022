@@ -60,16 +60,17 @@ exportNhoodSim <- function(export_dir, r_vals, m_vals, nhood_sim) {
   r_vals <- as.data.frame(as.matrix(r_vals))
   m_vals = as.data.frame(as.matrix(m_vals))#
 
-  write.table(r_vals, paste0(export_dir, "r_vals.tsv"), sep="\t", header=TRUE, quote=FALSE)
-  write.table(m_vals, paste0(export_dir, "m_vals.tsv"), sep="\t", header=TRUE, quote=FALSE)
+  write.table(r_vals, paste0(export_dir, "/r_vals.tsv"), sep="\t", quote=FALSE)
+  write.table(m_vals, paste0(export_dir, "/m_vals.tsv"), sep="\t", quote=FALSE)
 
-  write.table(nhood_sim, paste0(export_dir, "nhood_sim.tsv"), sep="\t",
-              header=TRUE, quote = FALSE)
+  write.table(nhood_sim, paste0(export_dir, "/nhood_sim.tsv"), sep="\t",
+              quote = FALSE)
 }
 
 
 #' @examples
 #' calNhoodSim(r_milo, m_milo, rm_orthologs, hvg_block="sample")
+#' @importFrom igraph vertex_attr
 #' @export
 calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
                          sim_preprocessing="gene_spec", sim_measure="pearson",
@@ -151,7 +152,9 @@ calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
 }
 
 
-
+#' @importFrom igraph vertex_attr
+#' @importFrom miloR nhoodGraph
+#' @export
 subsetMiloGraph <- function(r_milo, r_graph) {
 
   # Get nhood indices
@@ -167,7 +170,7 @@ subsetMiloGraph <- function(r_milo, r_graph) {
   # Filter original SingleCellExperiment
   r_milo <- r_milo[,rhood_cells]
   
-  nhoodGraph(r_milo) <- r_graph
+  miloR::nhoodGraph(r_milo) <- r_graph
 
   return(r_milo)
 }
@@ -175,29 +178,37 @@ subsetMiloGraph <- function(r_milo, r_graph) {
 
 # Needed to keep track of index cells when using subseted Milo objects
 # E.g. when plotting UMAP of a subsetted Milo object
+
+#' @importFrom miloR nhoodGraph
+#' @importFrom igraph vertex_attr
 #' @export
 addCellNamesToGraph <- function(milo) {
 
-  nh_graph <- nhoodGraph(milo)
+  nh_graph <- miloR::nhoodGraph(milo)
   nhood_ids <- as.numeric(vertex_attr(nh_graph)$name)
   nhood_inds <- colnames(milo)[nhood_ids]
-  V(nh_graph)$cell_name <- nhood_inds
-  nhoodGraph(milo) <- nh_graph
+  igraph::V(nh_graph)$cell_name <- nhood_inds
+  miloR::nhoodGraph(milo) <- nh_graph
 
   return(milo)
 }
 
 
+#' @importFrom miloR nhoodGraph
+#' @importFrom igraph vertex_attr
+#' @export
 addAttributeToGraph <- function(milo, id) {
-  nh_graph <- nhoodGraph(milo)
+  nh_graph <- miloR::nhoodGraph(milo)
   nhood_ids <- as.numeric(vertex_attr(nh_graph)$name)
   nhood_inds <- colnames(milo)[nhood_ids]
-  V(nh_graph)$celltype <- colData(milo)[nhood_inds, id]
-  nhoodGraph(milo) <- nh_graph
+  igraph::V(nh_graph)$celltype <- colData(milo)[nhood_inds, id]
+  miloR::nhoodGraph(milo) <- nh_graph
   return(milo)
 }
 
 
+#' @importFrom miloR nhoodGraph
+#' @importFrom igraph vertex_attr
 #' @export
 getNhoodPositions <- function(milo, nh_graph=NULL, dimred="UMAP") {
 
@@ -245,6 +256,8 @@ getMaxMappings <- function(nhood_sim, nhood_axis, long_format=FALSE,
 
 
 # Subset neighbourhoods based on colData observation
+#' @importFrom miloR nhoodGraph
+#' @importFrom igraph vertex_attr
 subsetNhoods <- function(milo, obs, values) {
   milo_graph <- nhoodGraph(milo)
   nhood_ids <- as.numeric(vertex_attr(milo_graph)$name)
@@ -254,6 +267,8 @@ subsetNhoods <- function(milo, obs, values) {
 }
 
 
+#' @importFrom igraph induced_subgraph
+#' @importFrom miloR nhoodGraph
 #' @export
 subsetMiloGroups <- function(milo, group_by, groups) {
   milo <- addCellNamesToGraph(milo)
