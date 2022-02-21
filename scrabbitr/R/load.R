@@ -159,8 +159,9 @@ loadRabbitData <- function(data_path, normalise=TRUE) {
   sce <- readRDS(paste0(data_path,"normalised_full.RDS"))
 
   # Load row data
-  genes <- read.csv(paste0(data_path,"features.tsv"),sep="\t",header = F,
-                    col.names = c("ensembl_id","gene_name","feature_type"))
+  genes <- read.table(paste0(data_path,"genes.tsv"),sep="\t")
+  rowData(sce) <- genes
+  rownames(sce) <- genes$ensembl_id
 
   # Load metadata
   meta <- read.csv(paste0(data_path,"meta.tab"),
