@@ -166,9 +166,9 @@ loadRabbitData <- function(data_path, normalise=TRUE) {
   meta <- read.csv(paste0(data_path,"meta.tab"),
                    sep = "\t",header = TRUE)
   rownames(meta) <- meta$index
-  celltypes <- read.csv(paste0(data_path,"annotation_12-07-21.tsv"),sep="\t",
-                        row.names = 1)
-  sce$celltype <-  celltypes[colnames(sce),"updated_celltype"]
+  celltypes <- read.table(paste0(data_path,"annotations_12-10-21.tsv"),sep="\t",
+                        row.names = 1, header=TRUE)
+  sce$celltype <-  celltypes[colnames(sce), 1]
 
   sce$cluster <- meta[,"leiden_2"]
 
