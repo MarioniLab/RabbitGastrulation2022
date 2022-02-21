@@ -201,6 +201,8 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
 
 
 
+.calcEuclidean <- function(x1,y1,x2,y2) (x1-y1)**2 + (x2-y2)**2
+
 
 #' Plot a UMAP with annotated labels
 #' Used to show predicted cell type annotations, where the number of factors is
@@ -209,7 +211,9 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
 #' @export
 plotAnnotatedUMAP <- function(sce, colour_by="predicted_celltype", ncell_filt=5,
                               size=1, label_force=15,
-                              palette=scrabbitr::celltype_colours) {
+                              palette=NULL) {
+
+  if(is.null(palette)) palette <- getCelltypeColours()
 
   col_data <- as.data.frame(colData(sce))
   col_data$group <- col_data[[colour_by]]
