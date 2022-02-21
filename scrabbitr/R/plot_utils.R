@@ -174,7 +174,7 @@ celltype_colours <- c("NMP" = "#8EC792",
                       'Roof plate'= "#772600",
                       'Trophoblastic knobs'="#549E79",
                       'Visceral YS endoderm 2'= "#5B4534",
-		      'Amniotic ectoderm 1' = "#53bcba",
+		      'Amniotic ectoderm 1' = "#46c5bf",
 		      'Amniotic ectoderm 2' = "#f0e400"
 )
 
