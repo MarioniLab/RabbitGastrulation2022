@@ -74,7 +74,8 @@ exportNhoodSim <- function(export_dir, r_vals, m_vals, nhood_sim) {
 #' @export
 calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
                          sim_preprocessing="gene_spec", sim_measure="pearson",
-                         hvg_join_type="intersection", export_dir=NULL, verbose=TRUE,
+                         hvg_join_type="intersection", r_exclude = NULL, m_exclude = NULL,
+			 export_dir=NULL, verbose=TRUE,
                          ...) {
 
   # Check data is normalised
@@ -85,8 +86,8 @@ calcNhoodSim <- function(r_milo, m_milo, orthologs, assay="logcounts",
 
   # Select features
   if(verbose) message("Selecting features...")
-  r_features <- selectNhoodFeatures(r_milo, ...)
-  m_features <- selectNhoodFeatures(m_milo, ...)
+  r_features <- selectNhoodFeatures(r_milo, exclude_genes = r_exclude, ...)
+  m_features <- selectNhoodFeatures(m_milo, exclude_genes = m_exclude, ...)
 
 
   # Combine features
