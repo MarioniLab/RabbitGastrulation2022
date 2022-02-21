@@ -210,7 +210,7 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
 #'
 #' @export
 plotAnnotatedUMAP <- function(sce, colour_by="predicted_celltype", ncell_filt=5,
-                              size=1, label_force=15, text_size = 2,
+                              size=1, label_force=15, text_size = 2, line_size = 0.5,
                               palette=NULL) {
 
   if(is.null(palette)) palette <- getCelltypeColours()
@@ -246,7 +246,8 @@ plotAnnotatedUMAP <- function(sce, colour_by="predicted_celltype", ncell_filt=5,
   p <- ggplot(col_data, aes_string(x="UMAP_1",y="UMAP_2",colour=colour_by)) +
     ggrastr::geom_point_rast(size=size) +
     geom_text_repel(data=label_pos, aes(x=UMAP_1, y=UMAP_2,label=group_wrapped,segment.colour=group),color="black",
-                    min.segment.length = 0,box.padding = 0.5,max.overlaps=Inf,size=text_size,force=label_force) +
+                    min.segment.length = 0,box.padding = 0.5,max.overlaps=Inf,size=text_size,force=label_force,
+		    segment.size = line_size) +
     coord_cartesian(clip = "off") +
     scale_colour_manual(aesthetics=c("color","segment.colour"),values=palette[sce[[colour_by]]],drop=TRUE,
                         breaks=names(freqs[freqs > ncell_filt])) +
