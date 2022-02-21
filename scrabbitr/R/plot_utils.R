@@ -4,8 +4,6 @@ celltype_colours <- c("NMP" = "#8EC792",
                       "Brain/Neural tube"="#233629",
                       "Allantoic mesoderm" = "#532C8A",
                       "Placodes"="#FF5C00",
-                      "Hypoblast" = "#d271d8",
-                      "Anterior Hypoblast" = "#e383a2",
                       "Viceral yolk sac endoderm" = "#9d506e",
                       "Yolk sac mesothelium" = "#ac4724",
                       "Rostral amniotic ectoderm" = "#7295e2",
@@ -34,7 +32,7 @@ celltype_colours <- c("NMP" = "#8EC792",
                       "Notochord/Floor plate" = "#0F4A9C",
                       "Cytotrophoblast" = "#da3c60",
                       "Syncytiotrophoblast" = "#46c5bf",
-                      "Hypoblast" = "#d271d8",
+                      "Hypoblast" = "#7F6874",
                       "Anterior hypoblast" = "#e383a2",
                       "Viceral yolk sac endoderm" = "#9d506e",
                       "Yolk sac mesothelium" = "#ac4724",
@@ -175,7 +173,9 @@ celltype_colours <- c("NMP" = "#8EC792",
                       'Hindbrain'="#63FFAC",
                       'Roof plate'= "#772600",
                       'Trophoblastic knobs'="#549E79",
-                      'Visceral YS endoderm 2'= "#5B4534"
+                      'Visceral YS endoderm 2'= "#5B4534",
+		      'Amniotic ectoderm 1' = "#53bcba",
+		      'Amniotic ectoderm 2' = "#f0e400"
 )
 
 
