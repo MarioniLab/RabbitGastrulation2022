@@ -219,3 +219,18 @@ plotTrajMappings <- function(r_milo, m_milo, df_sim, group_by, groups,
 }
 
 
+#' @export
+plotNhoodSizeHist <- function(milo, n_bins=50, colour="grey", alpha=0.7) {
+  df <- data.frame(nh_size=Matrix::colSums(miloR::nhoods(milo)))
+
+  ggplot(data=df, aes(nh_size)) + 
+  	geom_histogram(bins=n_bins, fill=colour, alpha=alpha) +
+	xlab("Neighbourhood size") + 
+	geom_vline(aes(xintercept = mean(nh_size)), col = "black") +
+	scale_x_continuous(expand = c(0, 0)) + 
+	scale_y_continuous(expand = c(0, 0)) +
+	theme_light(base_size = 16) + theme(aspect.ratio=1)
+}
+
+
+
