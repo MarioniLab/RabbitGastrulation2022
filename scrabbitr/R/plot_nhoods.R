@@ -154,10 +154,8 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
   # Plot nhoods and nhood graphs
   df_plot <- rbind(r_df, m_df)
   p <- ggplot(df_plot,aes(x=x,y=y)) +
-    geom_edge_link0(data=get_edges(format="short")(create_layout(simplify(r_graph),layout=r_nhoodPos)),
-                    edge_colour = "grey66", edge_alpha=edge_alpha) +
-    geom_edge_link0(data=get_edges(format="short")(create_layout(simplify(m_graph),layout=m_nhoodPos)),
-                    edge_colour = "grey66", edge_alpha=edge_alpha) +
+    ggrastr::rasterise(geom_edge_link0(data=get_edges(format="short")(create_layout(simplify(r_graph),layout=r_nhoodPos)), edge_colour = "grey66", edge_alpha=edge_alpha), dpi=300) +
+    ggrastr::rasterise(geom_edge_link0(data=get_edges(format="short")(create_layout(simplify(m_graph),layout=m_nhoodPos)), edge_colour = "grey66", edge_alpha=edge_alpha), dpi=300) +
     geom_point(aes(fill=obs),stroke=0,shape=21) +
     scale_fill_manual(values = celltype_colours[names(celltype_colours) %in% unique(df_plot$obs)], name = "")
 
