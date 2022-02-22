@@ -67,7 +67,6 @@ plotNhoodSimGroups <- function(milo, sim_values, group_by="celltype",facet_by=NU
   df$ranking <- df_mean[as.character(df$group), "ranking"]
 
   if(!is.null(subset)) {
-    show_rank <- TRUE
     df <- df[df$group %in% subset,]
     df_mean <- df_mean[df_mean$Group.1 %in% subset,]
   }
