@@ -60,10 +60,10 @@ exportNhoodSim <- function(export_dir, r_vals, m_vals, nhood_sim) {
   r_vals <- as.data.frame(as.matrix(r_vals))
   m_vals = as.data.frame(as.matrix(m_vals))#
 
-  write.table(r_vals, paste0(export_dir, "/r_vals.tsv"), sep="\t", quote=FALSE)
-  write.table(m_vals, paste0(export_dir, "/m_vals.tsv"), sep="\t", quote=FALSE)
+  write.table(r_vals, paste0(export_dir, "r_vals.tsv"), sep="\t", quote=FALSE)
+  write.table(m_vals, paste0(export_dir, "m_vals.tsv"), sep="\t", quote=FALSE)
 
-  write.table(nhood_sim, paste0(export_dir, "/nhood_sim.tsv"), sep="\t",
+  write.table(nhood_sim, paste0(export_dir, "nhood_sim.tsv"), sep="\t",
               quote = FALSE)
 }
 
@@ -202,7 +202,7 @@ addAttributeToGraph <- function(milo, id) {
   nh_graph <- miloR::nhoodGraph(milo)
   nhood_ids <- as.numeric(vertex_attr(nh_graph)$name)
   nhood_inds <- colnames(milo)[nhood_ids]
-  igraph::V(nh_graph)$celltype <- colData(milo)[nhood_inds, id]
+  nh_graph <- igraph::set_vertex_attr(nh_graph, id, value = colData(milo)[nhood_inds, id])
   miloR::nhoodGraph(milo) <- nh_graph
   return(milo)
 }
