@@ -118,7 +118,8 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
                          r_graph=NULL, m_graph=NULL, r_umap= FALSE, m_umap=FALSE,
                          offset=c(10,0), reflect.X=FALSE, reflect.Y = FALSE,
                          rotate=NULL, line_alpha=0.02, edge_alpha=0.01,
-                         colours=celltype_colours, legend_pos="none") {
+                         colours=celltype_colours, legend_pos="none", 
+			 legend_title = "Similarity", legend_point_size = 6) {
 
   # Check if graph provided
   if(is.null(r_graph)) { r_graph <- miloR::nhoodGraph(r_milo) }
@@ -157,7 +158,8 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
     ggrastr::rasterise(geom_edge_link0(data=get_edges(format="short")(create_layout(simplify(r_graph),layout=r_nhoodPos)), edge_colour = "grey66", edge_alpha=edge_alpha), dpi=300) +
     ggrastr::rasterise(geom_edge_link0(data=get_edges(format="short")(create_layout(simplify(m_graph),layout=m_nhoodPos)), edge_colour = "grey66", edge_alpha=edge_alpha), dpi=300) +
     geom_point(aes(fill=obs),stroke=0,shape=21) +
-    scale_fill_manual(values = celltype_colours[names(celltype_colours) %in% unique(df_plot$obs)], name = "")
+    scale_fill_manual(values = colours[names(colours) %in% unique(df_plot$obs)], name = "") +
+    guides(fill = guide_legend(override.aes = list(size=legend_point_size)))
 
 
   # Filter sim data frame to nhoods within graphs provided
@@ -187,7 +189,8 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
 
   # Add similarities lines
   p <- p + geom_line(data=df_lines,aes(x=x,y=y, group=alignment,colour=sim),alpha=line_alpha) +
-    scale_color_distiller(palette = "Spectral",limits=c(min(df_sim$sim),max(df_sim$sim)))
+    scale_color_distiller(name = legend_title, palette = "Spectral",
+			  limits=c(min(df_sim$sim),max(df_sim$sim)))
 
 
   # Add theme
@@ -204,12 +207,14 @@ plotNhoodMappings <- function(r_milo, m_milo, df_sim, dimred="UMAP", colour_by,
 
 #' @export
 plotTrajMappings <- function(r_milo, m_milo, df_sim, group_by, groups,
-                             dimred = "UMAP", ...) {
+                             dimred = "UMAP", colour_by = NULL, ...) {
+
+  if(is.null(colour_by)) colour_by <- group_by
 
   r_traj <- subsetMiloGroups(r_milo, group_by, groups)
   m_traj <- subsetMiloGroups(m_milo, group_by, groups)
 
-  p <- plotNhoodMappings(r_traj, m_traj, df_sim, dimred, group_by, ...)
+  p <- plotNhoodMappings(r_traj, m_traj, df_sim, dimred, colour_by, ...)
 
   return(p)
 
