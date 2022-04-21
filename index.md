@@ -2,7 +2,29 @@
 
 \* TOC {:toc}
 
-**Mai-Linh Ton[^1][^2][^*], Daniel Keitley[^3][^*], Bart Theeuwes[^2], Carolina Guibentif[^4], Jonas Ahnfelt-Rønne[^5], Ivan Imaz-Rosshandler[^6], Èlia Benito-Gutiérrez[^3], John Marioni[^7][^8][^9], Berthold Göttgens[^1][^2]** 
+**Mai-Linh Ton<sup>1,2,\*</sup> Daniel Keitley<sup>3,*</sup>, Bart Theeuwes<sup>2</sup>, Carolina Guibentif<sup>4</sup>, Jonas Ahnfelt-Rønne<sup>5</sup>, Ivan Imaz-Rosshandler<sup>6</sup>, Èlia Benito-Gutiérrez<sup>3</sup>, John Marioni<sup>7,8,9</sup>, Berthold Göttgens<sup>1,2</sup>** 
+
+
+
+1. *Department of Haematology, University of Cambridge, Cambridge, UK*
+
+2. *Wellcome-Medical Research Council Cambridge Stem Cell Institute, University of Cambridge, Cambridge, UK*
+
+3. *Department of Zoology, University of Cambridge, Cambridge, UK*
+
+4. *Department of Microbiology and Immunology, University of Gothenburg, Gothenburg, Sweden*
+
+5. *Department of Pathology & Imaging, Novo Nordisk, Måløv, Denmark*
+
+6. *Medical Research Council Laboratory of Molecular Biology, Cambridge, UK*
+
+7. *Wellcome Sanger Institute, Wellcome Genome Campus, Cambridge, UK*
+
+8. *European Molecular Biology Laboratory European Bioinformatics Institute, Cambridge, UK*
+
+9. Cancer Research UK Cambridge Institute, University of Cambridge Cambridge, UK
+
+   
 
 ### Abstract
 
