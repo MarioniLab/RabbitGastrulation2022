@@ -1,6 +1,22 @@
+### Table of Contents
+
+1. [Paper abstract](#Abstract)
+
+2. [Data availability](#Data availability)
+
+3. [Explore the data](#Explore the data)
+
+4. [Code availability](#Code availability)
+
+5. [Contact](#Support or Contact)
+
+6. [Other links](#Other links)
+
+   
+
 ## Rabbit Development as a Model for Single Cell Comparative Genomics
 
-\* TOC {:toc}
+
 
 **Mai-Linh Ton<sup>1,2,\*</sup> Daniel Keitley<sup>3,*</sup>, Bart Theeuwes<sup>2</sup>, Carolina Guibentif<sup>4</sup>, Jonas Ahnfelt-Rønne<sup>5</sup>, Ivan Imaz-Rosshandler<sup>6</sup>, Èlia Benito-Gutiérrez<sup>3</sup>, John Marioni<sup>7,8,9</sup>, Berthold Göttgens<sup>1,2</sup>** 
 
@@ -45,7 +61,7 @@ Various forms of the transcriptomics data are available [here](https://content.c
 | `r_meta.tsv`                                                 | Per-cell observations (e.g. sample, cell type annotation, stage) |
 | `r_genes.tsv`                                                | Ensembl codes and gene names for the scRNA-seq features.     |
 | `r_sizefactors.tsv`                                          |                                                              |
-| `r_corrected_pcs.tsv`                                        | Batch-corrected principal components                         |
+| `r_corrected_pcs.tsv`                                        | The top 50 principal components resulting from fastMNN batch correction. |
 | `r_reducedDims.rds` `r_umap.tsv` `r_tsne.tsv` `r_fa.tsv` `r_umap3d.tsv` | List of DataFrames containing coordinates for reduced dimensionality representations (e.g. UMAP, TSNE, PCA). |
 | `oc_mm_orthologs.tsv`                                        | DataFrame of one-to-one orthologs between the rabbit (*Oryctolagus cuniculus*) and mouse (*Mus musculus*) obtained through Ensembl. |
 
@@ -91,17 +107,3 @@ General queries can be directed to [Bertie Göttgens](bg200@cam.ac.uk) , [John M
 
 [Benito-Gutiérrez lab website](https://www.zoo.cam.ac.uk/research/cell-and-developmental-biology/benito-gutierrez)
 
-
-
-
-
-[^1]: Department of Haematology, University of Cambridge, Cambridge, UK
-[^2]:Wellcome-Medical Research Council Cambridge Stem Cell Institute, University of Cambridge, Cambridge, UK
-[^3]: Department of Zoology, University of Cambridge, Cambridge, UK
-[^4]: Department of Microbiology and Immunology, University of Gothenburg, Gothenburg, Sweden
-[^5]: Department of Pathology & Imaging, Novo Nordisk, Måløv, Denmark
-[^6]: Medical Research Council Laboratory of Molecular Biology, Cambridge, UK.
-[^7]: Wellcome Sanger Institute, Wellcome Genome Campus, Cambridge, UK
-[^8]: European Molecular Biology Laboratory European Bioinformatics Institute, Cambridge, UK
-[^9]: Cancer Research UK Cambridge Institute, University of Cambridge Cambridge, UK
-[^*]: Authors contributed equally
