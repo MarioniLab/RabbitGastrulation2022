@@ -1,3 +1,9 @@
+## Rabbit Development as a Model for Single Cell Comparative Genomics
+
+**Mai-Linh Ton<sup>1,2,\*</sup> Daniel Keitley<sup>3,*</sup>, Bart Theeuwes<sup>2</sup>, Carolina Guibentif<sup>4</sup>, Jonas Ahnfelt-Rønne<sup>5</sup>, Ivan Imaz-Rosshandler<sup>6</sup>, Èlia Benito-Gutiérrez<sup>3</sup>, John Marioni<sup>7,8,9</sup>, Berthold Göttgens<sup>1,2</sup>** 
+
+
+
 ### Table of Contents
 
 1. [Paper abstract](#Abstract)
@@ -11,34 +17,6 @@
 5. [Contact](#Support or Contact)
 
 6. [Other links](#Other links)
-
-   
-
-## Rabbit Development as a Model for Single Cell Comparative Genomics
-
-
-
-**Mai-Linh Ton<sup>1,2,\*</sup> Daniel Keitley<sup>3,*</sup>, Bart Theeuwes<sup>2</sup>, Carolina Guibentif<sup>4</sup>, Jonas Ahnfelt-Rønne<sup>5</sup>, Ivan Imaz-Rosshandler<sup>6</sup>, Èlia Benito-Gutiérrez<sup>3</sup>, John Marioni<sup>7,8,9</sup>, Berthold Göttgens<sup>1,2</sup>** 
-
-
-
-1. *Department of Haematology, University of Cambridge, Cambridge, UK*
-
-2. *Wellcome-Medical Research Council Cambridge Stem Cell Institute, University of Cambridge, Cambridge, UK*
-
-3. *Department of Zoology, University of Cambridge, Cambridge, UK*
-
-4. *Department of Microbiology and Immunology, University of Gothenburg, Gothenburg, Sweden*
-
-5. *Department of Pathology & Imaging, Novo Nordisk, Måløv, Denmark*
-
-6. *Medical Research Council Laboratory of Molecular Biology, Cambridge, UK*
-
-7. *Wellcome Sanger Institute, Wellcome Genome Campus, Cambridge, UK*
-
-8. *European Molecular Biology Laboratory European Bioinformatics Institute, Cambridge, UK*
-
-9. Cancer Research UK Cambridge Institute, University of Cambridge Cambridge, UK
 
    
 
@@ -107,3 +85,28 @@ General queries can be directed to [Bertie Göttgens](bg200@cam.ac.uk) , [John M
 
 [Benito-Gutiérrez lab website](https://www.zoo.cam.ac.uk/research/cell-and-developmental-biology/benito-gutierrez)
 
+
+
+
+
+###### Affiliations
+
+1. *Department of Haematology, University of Cambridge, Cambridge, UK*
+
+2. *Wellcome-Medical Research Council Cambridge Stem Cell Institute, University of Cambridge, Cambridge, UK*
+
+3. *Department of Zoology, University of Cambridge, Cambridge, UK*
+
+4. *Department of Microbiology and Immunology, University of Gothenburg, Gothenburg, Sweden*
+
+5. *Department of Pathology & Imaging, Novo Nordisk, Måløv, Denmark*
+
+6. *Medical Research Council Laboratory of Molecular Biology, Cambridge, UK*
+
+7. *Wellcome Sanger Institute, Wellcome Genome Campus, Cambridge, UK*
+
+8. *European Molecular Biology Laboratory European Bioinformatics Institute, Cambridge, UK*
+
+9. Cancer Research UK Cambridge Institute, University of Cambridge Cambridge, UK
+
+   
