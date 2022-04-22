@@ -8,7 +8,7 @@ celltype_colours <- c("NMP" = "#8EC792",
                       "Yolk sac mesothelium" = "#ac4724",
                       "Rostral amniotic ectoderm" = "#7295e2",
                       "Caudal amniotic ectoderm" = "#7766db",
-                      "Anterior mesoderm" = "#C9EBFB",#might need to change
+                      "Anterior mesoderm" = "#C9EBFB",
                       "Anterior Hypoblast" = "#e383a2",
                       "Limb Ectoderm" = "#f7f79e",
                       "Definitive Endoderm" = "#EF4E22",
@@ -17,7 +17,7 @@ celltype_colours <- c("NMP" = "#8EC792",
                       "Neural Crest" = "#C3C388",
                       "Neuroectoderm" = "#65A83E",
                       "Brain/Neural Tube" = "#647a4f",
-                      "Placodes" = "#ac4724", #might need to change
+                      "Placodes" = "#ac4724",
                       "Chorionic mesoderm" = "#913f04",
                       "Cranial Mesoderm" = "#6782c8",
                       "Early Erythrocytes" = "#f79083",
@@ -30,8 +30,6 @@ celltype_colours <- c("NMP" = "#8EC792",
                       "Late Erythrocytes" = "#EF4E22",
                       "Early Erythrocytes" = "#f79083",
                       "Notochord/Floor plate" = "#0F4A9C",
-                      "Cytotrophoblast" = "#da3c60",
-                      "Syncytiotrophoblast" = "#46c5bf",
                       "Hypoblast" = "#7F6874",
                       "Anterior hypoblast" = "#e383a2",
                       "Viceral yolk sac endoderm" = "#9d506e",
@@ -44,10 +42,10 @@ celltype_colours <- c("NMP" = "#8EC792",
                       "Posterior mesoderm" = "#8870ad",
                       "Floor Plate" = "#0F4A9C",
                       "Brain/Neural Tube" = "#647a4f",
-                      "Placodes" = "#ac4724", #might need to change
+                      "Placodes" = "#ac4724",
                       "Chorionic mesoderm" = "#913f04",
                       "Visceral YS endoderm" = "#9d506e",
-                      "Anterior mesoderm" = "#C9EBFB",#might need to change
+                      "Anterior mesoderm" = "#C9EBFB",
                       "Anterior Hypoblast" = "#e383a2",
                       "Limb Ectoderm" = "#f7f79e",
                       "Gut endoderm" = "#EF5A9D",
@@ -79,14 +77,14 @@ celltype_colours <- c("NMP" = "#8EC792",
                       "Lateral plate mesoderm" = "#F9DFE6",
                       "Limb mesoderm" = "#E35F82",
                       "Forelimb" = "#D02D75",
-                      "Presomitic mesoderm"="#5581CA",#"#0000ff",#fc
+                      "Presomitic mesoderm"="#5581CA",
                       "Somitic mesoderm" = "#005579",
-                      "Posterior somitic tissues" = "#5ADBE4",#"#40e0d0",#turquoise
+                      "Posterior somitic tissues" = "#5ADBE4",
                       "Paraxial mesoderm" = "#8DB5CE",
-                      "Cranial mesoderm" = "#456722",#"#006400",#darkgreen
+                      "Cranial mesoderm" = "#456722",
                       "Anterior somitic tissues"= "#D5E839",
-                      "Sclerotome" = "#E3CB3A",#"#ffff00",#yellow
-                      "Dermomyotome" = "#00BFC4",#"#a52a2a",#brown
+                      "Sclerotome" = "#E3CB3A",
+                      "Dermomyotome" = "#00BFC4",
                       "Pharyngeal mesoderm" = "#C9EBFB",
                       "Cardiopharyngeal progenitors" = "#556789",
                       "Anterior cardiopharyngeal progenitors"="#683ED8",
@@ -162,11 +160,6 @@ celltype_colours <- c("NMP" = "#8EC792",
                       "Brain/Eye"= "#0F8073",
                       "Differentiating neurons"="#12ED4C",
                       "Floor plate" = "#BF9DA8",
-                      "Cytotrophoblast"="#da3c60",
-                      "Syncytiotrophoblast"="#7295e2",
-                      "Syncytiotrophoblast progenitors"="#7766db",
-                      "Trophoblast"="#dea93c",
-                      "Amniotic ectoderm"= "#46c5bf",
                       "Hypoblast"="#7F6874",
                       'Forebrain'= "#FF4A46",
                       'Midbrain'= "#0000A6",
@@ -174,8 +167,223 @@ celltype_colours <- c("NMP" = "#8EC792",
                       'Roof plate'= "#772600",
                       'Trophoblastic knobs'="#549E79",
                       'Visceral YS endoderm 2'= "#5B4534",
-		      'Amniotic ectoderm 1' = "#46c5bf",
-		      'Amniotic ectoderm 2' = "#f0e400"
+            		      'Amniotic ectoderm 1' = "#46c5bf",
+            		      'Amniotic ectoderm 2' = "#f0e400",
+
+            		      'Visceral YS endoderm 2'= '#5B4534',
+            		      'Amnion 1'= '#549E79',
+            		      'Amnion 2'= '#f0e400',
+            		      'Amnion 3'= '#dea93c',
+            		      'Trophoblast'= '#989898',
+            		      'Cytotrophoblast'= '#46c5bf',
+            		      'Syncytiotrophoblast progenitors'= '#7766db',
+            		      "Syncytiotrophoblast" = '#7295e2'
+)
+
+
+celltype_ids <- c("Erythroid" = 1,
+                  "MEP" = 2,
+                  "Megakariocytes" = 3,
+                  "EMP" = 4,
+                  "YS endothelium" = 5,
+                  "Endocardium" = 6,
+                  "Venous endothelium" = 7,
+                  "Mesothelium-endothelium/Masked" = 8,
+                  "Allantois endothelium" = 9,
+                  "Embryo proper endothelium" = 10,
+                  "Haematoendothelial progenitors" = 11,
+
+                  "Allantois" = 12,
+                  "Mesenchyme" = 13,
+                  "Mesothelium" = 14,
+                  "Lateral plate mesoderm" = 15,
+
+                  "Epicardium" = 16,
+                  "Cardiomyocytes FHF 1" = 17,
+                  "Cranial neural crest" = 18,
+                  "Migratory neural crest" = 19,
+                  "Cardiopharyngeal progenitors" = 20,
+                  "Limb mesoderm" = 21,
+                  "Cranial mesoderm" = 22,
+                  "Anterior cardiopharyngeal progenitors" = 23,
+                  "Anterior somitic tissues" = 24,
+                  "Sclerotome" = 25,
+                  "Posterior somitic tissues" = 26,
+                  "Dermomyotome" = 27,
+                  "Nephron progenitors" = 28,
+                  "Presomitic mesoderm" = 29,
+                  "Somitic mesoderm" = 30,
+                  "Caudal mesoderm" = 31,
+                  "Cardiomyocytes FHF 2" = 32,
+                  "NMPs/Mesoderm-biased" = 33,
+                  "NMPs" = 34,
+                  "Nascent mesoderm" = 35,
+
+                  "Spinal cord" = 36,
+                  "Hindbrain" = 37,
+                  "Roof plate" = 38,
+                  "Midbrain" = 39,
+                  "Forebrain" = 40,
+                  "Differentiating neurons" = 41,
+                  "Floor plate" = 42,
+                  "Primitive Streak" = 43,
+                  "Anterior Primitive Streak" = 44,
+                  "Epiblast" = 45,
+                  "PGC" = 46,
+
+                  "Definitive Endoderm" = 47,
+                  "Placodal ectoderm" = 48,
+                  "Notochord" = 49,
+                  "Pharyngeal endoderm" = 50,
+                  "Thyroid primordium" = 51,
+                  "Gut endoderm" = 52,
+                  "Gut tube" = 53,
+                  "Non-neural ectoderm 4" = 54,
+                  "Non-neural ectoderm 2" = 55,
+                  "Amnion 3" = 56,
+
+                  "Amnion 1" = 57,
+                  "Amnion 2" = 58,
+                  "Trophoblast" = 59,
+                  "Cytotrophoblast" = 60,
+                  "Syncytiotrophoblast progenitors" = 61,
+                  "Syncytiotrophoblast" = 62,
+
+                  "Visceral endoderm" = 63,
+                  "Hypoblast" = 64,
+                  "Parietal YS endoderm" = 65,
+                  "Visceral YS endoderm" = 66,
+                  "Visceral YS endoderm 2" = 67
+)
+
+
+stage_colours = c(
+  "E6.5" = "#723957",
+  "E6.75" = "#823C3C",
+  "E7.0" ="#93502D",
+  "E7.25"="#A9742E",
+  "E7.5"="#C3A34B",
+  "E7.75"="#D5CE81",
+  "E8.0"="#CBE0B1",
+  "E8.25"="#A4D8CA",
+  "E8.5"="#73BACC",
+  "E8.75"="#5394BF",
+  "E9.0"="#506BA4",
+  "E9.25"="#61497D",
+  "E9.5"="#723959",
+
+
+  #Rabbit
+  "GD7" = "#93502D", #FFFFBF",
+  "GD8" = "#CBE0B1", #3288BD",
+  "GD9" = "#506BA4"
+
+)
+
+
+godsnot_102 <- c(
+    "#FFFF00",
+    "#1CE6FF",
+    "#FF34FF",
+    "#FF4A46",
+    "#008941",
+    "#006FA6",
+    "#A30059",
+    "#FFDBE5",
+    "#7A4900",
+    "#0000A6",
+    "#63FFAC",
+    "#B79762",
+    "#004D43",
+    "#8FB0FF",
+    "#997D87",
+    "#5A0007",
+    "#809693",
+    "#6A3A4C",
+    "#1B4400",
+    "#4FC601",
+    "#3B5DFF",
+    "#4A3B53",
+    "#FF2F80",
+    "#61615A",
+    "#BA0900",
+    "#6B7900",
+    "#00C2A0",
+    "#FFAA92",
+    "#FF90C9",
+    "#B903AA",
+    "#D16100",
+    "#DDEFFF",
+    "#000035",
+    "#7B4F4B",
+    "#A1C299",
+    "#300018",
+    "#0AA6D8",
+    "#013349",
+    "#00846F",
+    "#372101",
+    "#FFB500",
+    "#C2FFED",
+    "#A079BF",
+    "#CC0744",
+    "#C0B9B2",
+    "#C2FF99",
+    "#001E09",
+    "#00489C",
+    "#6F0062",
+    "#0CBD66",
+    "#EEC3FF",
+    "#456D75",
+    "#B77B68",
+    "#7A87A1",
+    "#788D66",
+    "#885578",
+    "#FAD09F",
+    "#FF8A9A",
+    "#D157A0",
+    "#BEC459",
+    "#456648",
+    "#0086ED",
+    "#886F4C",
+    "#34362D",
+    "#B4A8BD",
+    "#00A6AA",
+    "#452C2C",
+    "#636375",
+    "#A3C8C9",
+    "#FF913F",
+    "#938A81",
+    "#575329",
+    "#00FECF",
+    "#B05B6F",
+    "#8CD0FF",
+    "#3B9700",
+    "#04F757",
+    "#C8A1A1",
+    "#1E6E00",
+    "#7900D7",
+    "#A77500",
+    "#6367A9",
+    "#A05837",
+    "#6B002C",
+    "#772600",
+    "#D790FF",
+    "#9B9700",
+    "#549E79",
+    "#FFF69F",
+    "#201625",
+    "#72418F",
+    "#BC23FF",
+    "#99ADC0",
+    "#3A2465",
+    "#922329",
+    "#5B4534",
+    "#FDE8DC",
+    "#404E55",
+    "#0089A3",
+    "#CB7E98",
+    "#A4E804",
+    "#324E72"
 )
 
 
@@ -183,3 +391,38 @@ celltype_colours <- c("NMP" = "#8EC792",
 getCelltypeColours <- function() {
   return(celltype_colours)
 }
+
+#' @export
+getCelltypeIDs <- function() { return(celltype_ids) }
+
+#' @export
+getStageColours <- function() { return(stage_colours) }
+
+
+#' @export
+getPalette <- function(obs) {
+  if(missing(obs)) return(godsnot_102)
+  else if(all(unique(obs) %in% names(celltype_colours))) return(celltype_colours)
+  else if(all(unique(obs) %in% names(stage_colours))) return(stage_colours)
+  else {
+    n <- length(unique(obs))
+    if(n > length(godsnot_102)) {
+      stop(paste0("Maximum number of colours is ", length(godsnot_102), "."))
+    }
+    pal <- godsnot_102[1:n]
+    names(pal) <- unique(obs)
+    return(pal)
+  }
+}
+
+#' @export
+makeObsIDs <- function(obs) {
+  if(all(unique(obs) %in% names(celltype_ids))) return(celltype_ids)
+  else {
+    ids <- 1:length(unique(obs))
+    names(ids) <- unique(obs)[order(unique(obs))]
+    return(ids)
+  }
+}
+
+
