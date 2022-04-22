@@ -42,7 +42,7 @@ Various forms of the transcriptomics data are available [here](https://content.c
 | `r_corrected_pcs.tsv`                                        | The top 50 principal components resulting from fastMNN batch correction. |
 | `r_reducedDims.rds` `r_umap.tsv` `r_tsne.tsv` `r_fa.tsv` `r_umap3d.tsv` | List of DataFrames containing coordinates for reduced dimensionality representations (e.g. UMAP, TSNE, PCA). |
 | `oc_mm_orthologs.tsv`                                        | DataFrame of one-to-one orthologs between the rabbit (*Oryctolagus cuniculus*) and mouse (*Mus musculus*) obtained through Ensembl. |
-| `oc_train_mf.rds` `oc_train_hs.rds` `mm_train_mf,rds` `mm_train_hs.rds` | SingleR models trained on rabbit (*oc*) and mouse (*mm*) datasets for predicting cell types in macaque (*mf*) and human (*hs*) data. |
+| `oc_train_mf.rds` `oc_train_hs.rds` `mm_train_mf.rds` `mm_train_hs.rds` | SingleR models trained on rabbit (*oc*) and mouse (*mm*) datasets for predicting cell types in macaque (*mf*) and human (*hs*) data. |
 
 Raw scRNA-seq files, ATAC-seq data and histology images will be made available in due course. For details of the other, externally generated datasets used in our analysis, see the methods section of the paper. 
 
