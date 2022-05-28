@@ -1,6 +1,6 @@
 ## Rabbit Development as a Model for Single Cell Comparative Genomics
 
-**Mai-Linh Ton<sup>1,2,\*</sup> Daniel Keitley<sup>3,*</sup>, Bart Theeuwes<sup>2</sup>, Carolina Guibentif<sup>4</sup>, Jonas Ahnfelt-Rønne<sup>5</sup>, Ivan Imaz-Rosshandler<sup>6</sup>, Èlia Benito-Gutiérrez<sup>3</sup>, John Marioni<sup>7,8,9</sup>, Berthold Göttgens<sup>1,2</sup>** 
+**Mai-Linh Ton<sup>1,2,\*</sup> Daniel Keitley<sup>3,*</sup>, Bart Theeuwes<sup>2</sup>, Carolina Guibentif<sup>4</sup>, Jonas Ahnfelt-Rønne<sup>5</sup>, Thomas Kjærgaard Andreassen<sup>5</sup>, Fernando J. Calero Nieto<sup>2</sup>, Ivan Imaz-Rosshandler<sup>6</sup>, Blanca Pijuan-Sala<sup>7</sup>, Jennifer Nichols<sup>2</sup>, Èlia Benito-Gutiérrez<sup>3</sup>, John Marioni<sup>7,8,9</sup>, Berthold Göttgens<sup>1,2</sup>** 
 
 
 
@@ -8,15 +8,15 @@
 
 1. [Paper abstract](#Abstract)
 
-2. [Data availability](#Data availability)
+2. [Data availability](#data)
 
-3. [Explore the data](#Explore the data)
+3. [Explore the data](#explore)
 
-4. [Code availability](#Code availability)
+4. [Code availability](#code)
 
-5. [Contact](#Support or Contact)
+5. [Contact](#contact)
 
-6. [Other links](#Other links)
+6. [Other links](#other)
 
    
 
@@ -26,7 +26,7 @@ Biomedical research relies heavily on the use of model organisms to gain insight
 
 
 
-### Data availability
+### Data availability<a name="data" />
 
 Various forms of the transcriptomics data are available [here](https://content.cruk.cam.ac.uk/jmlab/RabbitGastrulation2022/) for loading into R and python. 
 
@@ -48,7 +48,7 @@ Raw scRNA-seq files, ATAC-seq data and histology images will be made available i
 
 
 
-### Explore the data
+### Explore the data<a name="explore" />
 
 #### Shiny app / Vitessce
 
@@ -64,7 +64,7 @@ cellxgene launch https://content.cruk.cam.ac.uk/jmlab/RabbitGastrulation2022/r_d
 
 
 
-### Code availability
+### Code availability<a name="code" />
 
 The code used to process and analyse and the rabbit transcriptomics data is available through the [RabbitGastrulation2022](https://github.com/dkeitley/RabbitGastrulation2022) github repository.
 
@@ -72,13 +72,13 @@ The code is organised into R and python Jupyter notebooks. Many of the functions
 
 
 
-### Support or Contact
+### Support or Contact<a name="contact" />
 
 General queries can be directed to [Bertie Göttgens](bg200@cam.ac.uk) , [John Marioni](mailto:marioni@ebi.ac.uk) or [Èlia Benito-Gutiérrez](mailto:eb647@cam.ac.uk). For issues relating to the data, code or shiny app, you can file an issue on the most relevant github repository or email Daniel Keitley at [dk562@cam.ac.uk](mailto:dk562@cam.ac.uk). 
 
 
 
-### Other links
+### Other links<a name="other" />
 
 [Göttgens lab website](https://www.stemcells.cam.ac.uk/people/pi/gottgens)
 
@@ -104,11 +104,13 @@ General queries can be directed to [Bertie Göttgens](bg200@cam.ac.uk) , [John M
 
 6. *Medical Research Council Laboratory of Molecular Biology, Cambridge, UK*
 
-7. *Wellcome Sanger Institute, Wellcome Genome Campus, Cambridge, UK*
+7. *Genome Biology Unit, European Molecular Biology Laboratory (EMBL), Heidelberg, Germany*
 
-8. *European Molecular Biology Laboratory European Bioinformatics Institute, Cambridge, UK*
+8. *Wellcome Sanger Institute, Wellcome Genome Campus, Cambridge, UK*
 
-9. Cancer Research UK Cambridge Institute, University of Cambridge Cambridge, UK
+9. *European Molecular Biology Laboratory European Bioinformatics Institute, Cambridge, UK*
+
+10. Cancer Research UK Cambridge Institute, University of Cambridge Cambridge, UK
 
    \* Authors contributed equally
 
