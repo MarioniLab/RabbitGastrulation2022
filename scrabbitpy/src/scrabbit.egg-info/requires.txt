@@ -1,7 +1,0 @@
-numpy
-scanpy
-cython
-wot
-matplotlib
-pandas
-plotly
