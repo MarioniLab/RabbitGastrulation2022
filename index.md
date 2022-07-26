@@ -32,7 +32,7 @@ Various forms of the transcriptomics data are available [here](https://content.c
 
 | File name                                                    | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `r_data.h5ad`                                                | AnnData object for processing with [scanpy](https://scanpy.readthedocs.io/en/stable/index.html). |
+| `r_anndata.h5ad`                                                | AnnData object for processing with [scanpy](https://scanpy.readthedocs.io/en/stable/index.html). |
 | `r_sce.rds`                                                  | Contains a `SingleCellExperiment` object for processing in R. |
 | `r_counts.mtx`                                               | Counts matrix in MatrixMarket format                         |
 | `r_logcounts.mtx`                                            | Normalised logcounts in MatrixMarket format                  |
@@ -59,9 +59,10 @@ You can interactively explore our single-cell transcriptomic dataset on the the 
 The data can also be explored locally using [cellxgene](https://github.com/chanzuckerberg/cellxgene). After following the cellxgene installation instructions, the rabbit data can be loaded via the anndata `.h5ad` file stored in the link above. 
 
 ```
-cellxgene launch https://content.cruk.cam.ac.uk/jmlab/RabbitGastrulation2022/r_data.h5ad
+cellxgene launch https://content.cruk.cam.ac.uk/jmlab/RabbitGastrulation2022/data/r_anndata.h5ad --max-category-items 100
 ```
 
+Note: Launching cellxgene with a local copy of the `r_anndata.h5ad` file may result in faster loading times. 
 
 
 ### Code availability<a name="code" />
