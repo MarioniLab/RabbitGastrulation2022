@@ -12,6 +12,8 @@ Our modified GTF file can be downloaded from [here](https://content.cruk.cam.ac.
 
 The scRNA-seq raw fastq files can be downloaded from the ArrayExpress website using accession number [**E-MTAB-11836**](https://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-11836/).
 
+Sample metadata and the expected number of cells can be found in `data-in/rna_sample_metadata.csv`.
+
 ## Usage
 
 The first step is to create a Cell Ranger reference package using the reference genome and gene annotations. The code for doing this is available in `create_reference.md`
