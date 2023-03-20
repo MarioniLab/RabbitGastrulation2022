@@ -8,7 +8,7 @@ This directory contains code used to perform an automated and manual annotation 
 
 ## Requirements
 
-Data from the extended mouse atlas [[1]](#1) was used to train the automated annotation model. This can be accessed from <https://marionilab.github.io/ExtendedMouseAtlas/#data>.
+Data from the extended mouse atlas (Imaz Rosshandler et al. 2023) was used to train the automated annotation model. This can be accessed from <https://marionilab.github.io/ExtendedMouseAtlas/#data>.
 
 `assign_cell_types.ipynb` uses utility functions defined in `scrabbitpy`. This can be installed from the Github repository: <https://github.com/dkeitley/scrabbitpy>
 
