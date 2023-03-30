@@ -1,5 +1,4 @@
 
-library(here)
 library(Rsamtools)
 library(GenomicAlignments)
 library(GenomicFeatures)
@@ -10,23 +9,21 @@ library(biomaRt)
 library(data.table)
 
 
-here::set_here(getwd())
-
 # File paths - modify where appropriate
 # Uses 'here' R package to simplify relative paths
 # Assumes working directory is source file location 
 
-sample_bam_path <- here("data-in","SIGAC11_possorted_genome_bam.bam")
-sample_bai_path <- here("data-in","SIGAC11_possorted_genome_bam.bam.bai")
+sample_bam_path <- "data-in/SIGAC11_possorted_genome_bam.bam"
+sample_bai_path <- "data-in/SIGAC11_possorted_genome_bam.bam.bai"
 
-intergenic_bam_path <- here("data-in","SIGAC11_intergenic_reads.bam")
-intergenic_bai_path <- here("data-in","SIGAC11_intergenic_reads.bam.bai")
+intergenic_bam_path <- "data-in/SIGAC11_intergenic_reads.bam"
+intergenic_bai_path <- "data-in/SIGAC11_intergenic_reads.bam.bai"
 
-gtf_path <- here("data-in","Oryctolagus_cuniculus.OryCun2.0.99.gtf")
-alignments_path <- here("data-in","hs_alignment_results.tsv") 
+gtf_path <- "data-in/Oryctolagus_cuniculus.OryCun2.0.99.gtf"
+alignments_path <- "data-in/hs_alignment_results.tsv"
 
-out_gtf_ext <- here("data-out","extended_three_prime_annotation.gtf")
-out_gtf_align <- here("data-out","extension_plus_alignments.gtf")
+out_gtf_ext <- "data-out/extended_three_prime_annotation.gtf"
+out_gtf_align <- "data-out/extension_plus_alignments.gtf"
 
 
 # Load BAM files
