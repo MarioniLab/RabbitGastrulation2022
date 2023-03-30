@@ -16,3 +16,9 @@ archive/
 paper_drafts/
 notebooks/extra/
 notebooks/archive/
+posters/
+scripts/
+submissions/
+.Rhistory
+.here
+notebooks
