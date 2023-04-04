@@ -16,6 +16,14 @@ The scripts used here assume that the rabbit atlas has been processed, clustered
 
 ## Further details
 
+### Running SingleR
+
+In order for the cell type annotation model to relate the rabbit and mouse datasets, we constructed a common feature set between the atlases using one-to-one ortholog genes. For each rabbit gene, we extracted its mouse homolog from Ensembl and cross-referenced it with the Ensembl codes of the mouse atlas. Many-to-one and many-to-many genes were excluded by filtering on the orthology type also provided by Ensembl.
+
+We then trained a SingleR model on the mouse atlas (with `trainSingleR` from the `SingleR` package using parameters `de.n = 50` and `de.method = Wilcox`), providing the cell type annotations from the original study, using. Given the large number of cells, we opted for the pseudobulk option within SingleR, which clusters cells of the same cell type into pseudo-samples, reducing the computational work.
+
+To validate the cell type predictions we also relied on timepoint information, spatial information from the GD9 samples and the expression of cell type marker genes. In some cases, such as in the annotation of parietal endoderm, we also visualized the expression of marker genes specific to a given cluster, using RNAscope. All of these different sources of information were considered in order to assign cell type labels to clusters. 
+
 ### Relation to the ExtendedMouseAtlas cell types
 
 47/67 cell types defined in the rabbit were annotated consistently with the mouse. Based on evidence from marker gene expression, automated cell type annotation and SAMap integration, these cell types presented a 1-1 mapping with those in the mouse (Extended Data Figure 4A,C). Cell types were annotated differently between the two datasets if they were i) not confidently identifiable in the rabbit or mouse, ii) if a different terminology was preferred or iii) if a less-specific annotation was more suitable.
